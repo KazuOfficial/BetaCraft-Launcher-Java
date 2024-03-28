@@ -3,9 +3,7 @@
 
 #include <QtWidgets>
 
-extern "C" {
 #include "../../../core/Betacraft.h"
-}
 
 bool isRepoWidgetVisible = false;
 

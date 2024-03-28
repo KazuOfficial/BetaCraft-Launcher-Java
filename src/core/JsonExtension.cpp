@@ -13,7 +13,7 @@ char *jext_alloc_string(json_object *obj) {
     int len = json_object_get_string_len(obj);
 
     if (len > 0) {
-        char *result = malloc(len + 1);
+        char *result = (char*)malloc(len + 1);
         strcpy(result, json_object_get_string(obj));
 
         return result;
@@ -24,14 +24,14 @@ char *jext_alloc_string(json_object *obj) {
 
 char **jext_alloc_string_array(json_object *obj) {
     int len = json_object_array_length(obj);
-    char **strings = malloc(len * sizeof(char *));
+    char **strings = (char**)malloc(len * sizeof(char *));
 
     json_object *tmp;
     for (int i = 0; i < len; i++) {
         tmp = json_object_array_get_idx(obj, i);
 
         int tmpLen = json_object_get_string_len(tmp);
-        strings[i] = malloc(tmpLen + 1);
+        strings[i] = (char*)malloc(tmpLen + 1);
         strcpy(strings[i], json_object_get_string(tmp));
     }
 

@@ -4,10 +4,8 @@
 #include <QWidget>
 #include <QtConcurrent>
 
-extern "C" {
 #include "../../core/Instance.h"
 #include "../../core/VersionList.h"
-}
 
 class QGridLayout;
 class QPushButton;

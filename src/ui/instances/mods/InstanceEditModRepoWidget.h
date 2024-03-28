@@ -4,9 +4,7 @@
 #include "InstanceEditModVersionsWidget.h"
 #include <QWidget>
 
-extern "C" {
 #include "../../../core/Instance.h"
-}
 
 class QGridLayout;
 class QPushButton;

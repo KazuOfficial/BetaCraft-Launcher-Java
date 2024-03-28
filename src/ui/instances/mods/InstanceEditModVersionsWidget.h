@@ -4,10 +4,8 @@
 #include <QWidget>
 #include <QtConcurrent>
 
-extern "C" {
 #include "../../../core/Instance.h"
 #include "../../../core/Mod.h"
-}
 
 class QGridLayout;
 class QListWidget;

@@ -55,7 +55,7 @@ void bc_version_read_rule_all(bc_version_actionRule *rules, json_object *obj) {
     array_list *rulesJson = json_object_get_array(obj);
 
     for (int j = 0; j < rulesJson->size; j++) {
-        bc_version_read_rule(&rules[j], rulesJson->array[j]);
+        bc_version_read_rule(&rules[j], (json_object*)rulesJson->array[j]);
     }
 }
 
@@ -185,7 +185,7 @@ void bc_game_version_json_read_logging(json_object *obj, json_object *tmp,
 void bc_game_version_json_read_minecraft_arguments(json_object *tmp,
                                                    bc_version *v) {
     const char *mcargs = json_object_get_string(tmp);
-    char *mcargs_heap = malloc(strlen(mcargs) + 1);
+    char *mcargs_heap = (char*)malloc(strlen(mcargs) + 1);
     int size = count_substring(mcargs_heap, ' ') + 1 + /* width, height */ 4;
     char split[128][1024];
 
@@ -239,7 +239,7 @@ void bc_game_version_read_arguments(json_object *tmp, bc_version *v) {
         v->arguments.game_len = gameArr->size;
 
         for (int i = 0; i < gameArr->size; i++) {
-            json_object *gameobj = gameArr->array[i];
+            json_object *gameobj = (json_object*)gameArr->array[i];
 
             bc_version_read_arg_rule(&v->arguments.game[i], gameobj);
         }
@@ -251,7 +251,7 @@ void bc_game_version_read_arguments(json_object *tmp, bc_version *v) {
         v->arguments.jvm_len = jvmArr->size;
 
         for (int i = 0; i < jvmArr->size; i++) {
-            json_object *jvmobj = jvmArr->array[i];
+            json_object *jvmobj = (json_object*)jvmArr->array[i];
 
             bc_version_read_arg_rule(&v->arguments.jvm[i], jvmobj);
         }
@@ -364,7 +364,7 @@ void bc_game_version_read_lib_list(json_object *obj, json_object *tmp,
         v->lib_len = libArr->size;
 
         for (int i = 0; i < libArr->size; i++) {
-            json_object *libraryobj = libArr->array[i];
+            json_object *libraryobj = (json_object*)libArr->array[i];
 
             snprintf(v->libraries[i].name, sizeof(v->libraries[i].name), "%s",
                      jext_get_string_dummy(libraryobj, "name"));
@@ -384,7 +384,7 @@ void bc_game_version_read_lib_list(json_object *obj, json_object *tmp,
 }
 
 bc_version *bc_version_read_json(json_object *obj) {
-    bc_version *v = malloc(sizeof(bc_version));
+    bc_version *v = (bc_version*)malloc(sizeof(bc_version));
     json_object *tmp, *downloads;
     json_object_object_get_ex(obj, "downloads", &downloads);
 

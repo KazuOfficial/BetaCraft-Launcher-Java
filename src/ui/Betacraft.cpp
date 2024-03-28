@@ -1,10 +1,8 @@
 #include "Betacraft.h"
 
-extern "C" {
 #include "../core/FileSystem.h"
 #include "../core/JsonExtension.h"
 #include "../core/Settings.h"
-}
 
 char _languagePath[PATH_MAX];
 

@@ -200,7 +200,7 @@ void bc_instance_move(bc_instance_array *standard,
 
 bc_instance_group_name_array *bc_instance_group_name_get_all() {
     bc_instance_group_name_array *group_array =
-        malloc(sizeof(bc_instance_group_name_array));
+        (bc_instance_group_name_array*)malloc(sizeof(bc_instance_group_name_array));
 
     json_object *settings = json_object_from_file("settings.json");
 
@@ -408,7 +408,7 @@ bc_instance *bc_instance_get(const char *instance_path) {
     json_object *json = json_object_from_file(instance_path);
 
     if (json != NULL) {
-        instance = malloc(sizeof(bc_instance));
+        instance = (bc_instance*)malloc(sizeof(bc_instance));
 
         bc_instance_fill_object_from_json(instance, instance_path, json);
         json_object_put(json);
@@ -418,7 +418,7 @@ bc_instance *bc_instance_get(const char *instance_path) {
 }
 
 bc_instance_array *bc_instance_get_all() {
-    bc_instance_array *instance_array = malloc(sizeof(bc_instance_array));
+    bc_instance_array *instance_array = (bc_instance_array*)malloc(sizeof(bc_instance_array));
 
     json_object *settings = json_object_from_file("settings.json");
 
@@ -454,7 +454,7 @@ bc_instance_array *bc_instance_get_all() {
 
 bc_instance_group_array *bc_instance_group_get_all() {
     bc_instance_group_array *instance_array =
-        malloc(sizeof(bc_instance_group_array));
+        (bc_instance_group_array*)malloc(sizeof(bc_instance_group_array));
 
     json_object *settings = json_object_from_file("settings.json");
 
@@ -529,7 +529,7 @@ void bc_instance_run(const char *server_ip, const char *server_port) {
     bc_account *acc = bc_account_select_get();
 
     if (acc == NULL) {
-        acc = malloc(sizeof(bc_account));
+        acc = (bc_account*)malloc(sizeof(bc_account));
 
         acc->account_type = BC_ACCOUNT_UNAUTHENTICATED;
         strcpy(acc->username, "Player");
@@ -538,7 +538,7 @@ void bc_instance_run(const char *server_ip, const char *server_port) {
         strcpy(acc->minecraft_access_token, "-");
     }
 
-    bc_game_data *data = malloc(sizeof(bc_game_data));
+    bc_game_data *data = (bc_game_data*)malloc(sizeof(bc_game_data));
     data->instance = selected_instance;
     data->version = ver;
     data->account = acc;

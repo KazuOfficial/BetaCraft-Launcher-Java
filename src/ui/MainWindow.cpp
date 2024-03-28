@@ -3,13 +3,11 @@
 #include "Betacraft.h"
 #include <QtWidgets>
 
-extern "C" {
 #include "../core/Betacraft.h"
 #include "../core/Discord.h"
 #include "../core/JavaInstallations.h"
 #include "../core/Network.h"
 #include "../core/VersionList.h"
-}
 
 char _updateVersion[BETACRAFT_MAX_UPDATE_TAG_SIZE] = "";
 

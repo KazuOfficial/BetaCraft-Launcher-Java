@@ -15,7 +15,7 @@
 const char API_MODS[] = "https://api.betacraft.uk/v2/mod_list";
 
 bc_mod_array *bc_mod_list(const char *version) {
-    bc_mod_array *mod_list = malloc(sizeof(bc_mod_array));
+    bc_mod_array *mod_list = (bc_mod_array*)malloc(sizeof(bc_mod_array));
 
     char endpoint[100];
     snprintf(endpoint, sizeof(endpoint), "%s?game_version=%s", API_MODS,
@@ -86,7 +86,7 @@ bc_mod_array *bc_mod_list(const char *version) {
 
             modV->requirements_len = json_object_array_length(tmp_requirements);
             modV->requirements =
-                malloc(modV->requirements_len * sizeof(bc_mod_version));
+                (bc_mod_version*)malloc(modV->requirements_len * sizeof(bc_mod_version));
 
             for (int k = 0; k < modV->requirements_len; k++) {
                 tmp_r = json_object_array_get_idx(tmp_requirements, k);
@@ -118,7 +118,7 @@ bc_mod_array *bc_mod_list(const char *version) {
 }
 
 bc_mod_version_array *bc_mod_list_installed(const char *instance_path) {
-    bc_mod_version_array *mods = malloc(sizeof(bc_mod_version_array));
+    bc_mod_version_array *mods = (bc_mod_version_array*)malloc(sizeof(bc_mod_version_array));
 
     json_object *json = json_object_from_file(instance_path);
     json_object *tmp, *m_tmp;
@@ -252,7 +252,7 @@ void bc_mod_list_remove(const char *instance_path, const char *mod_path) {
 
 void bc_mod_add(const char *mod_path, const char *instance_path,
                 const char *game_version) {
-    char *split = strrchr(mod_path, '/');
+    char *split = (char*)strrchr(mod_path, '/');
     split++;
     char *filename = strdup(split);
     filename[strlen(filename) - 4] = '\0'; // remove .zip
@@ -368,7 +368,7 @@ void bc_mod_replace_jar(const char *jar_path, const char *instance_path,
 
     bc_file_extract(jar_path, replace_dir);
 
-    char *jar_name = strrchr(jar_path, '/');
+    char *jar_name = (char*)strrchr(jar_path, '/');
     jar_name++;
 
     bc_mod_version mod;

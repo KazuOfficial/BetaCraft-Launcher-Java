@@ -3,11 +3,9 @@
 #include "../Betacraft.h"
 #include <QtWidgets>
 
-extern "C" {
 #include "../../core/Betacraft.h"
 #include "../../core/Instance.h"
 #include "../../core/VersionList.h"
-}
 
 AddInstanceWidget::AddInstanceWidget(QWidget *parent) : QWidget{parent} {
     _layout = new QGridLayout(this);

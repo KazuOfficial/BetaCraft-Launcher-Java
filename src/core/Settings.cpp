@@ -23,7 +23,7 @@ void bc_settings_update(bc_settings *settings) {
 }
 
 bc_settings *bc_settings_get() {
-    bc_settings *settings = malloc(sizeof(bc_settings));
+    bc_settings *settings = (bc_settings*)malloc(sizeof(bc_settings));
     json_object *json = json_object_from_file("settings.json");
 
     settings->discord = jext_get_boolean(json, "discord");

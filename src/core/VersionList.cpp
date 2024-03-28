@@ -24,7 +24,7 @@ void bc_versionlist_read_version_json(bc_versionlist_version *version,
 
 bc_versionlist *bc_versionlist_read_json(json_object *obj,
                                          json_object *bcList) {
-    bc_versionlist *vl = malloc(sizeof(bc_versionlist));
+    bc_versionlist *vl = (bc_versionlist*)malloc(sizeof(bc_versionlist));
     json_object *tmp;
 
     vl->versions_len = 0;
@@ -58,14 +58,14 @@ bc_versionlist *bc_versionlist_read_json(json_object *obj,
 
     // Official version list
     for (int i = 0; i < max; i++) {
-        verObj = verArr->array[i];
+        verObj = (json_object*)verArr->array[i];
 
         bc_versionlist_read_version_json(&vl->versions[i], verObj);
     }
 
     // Betacraft version list
     for (int i = 0; i < bc_len; i++) {
-        verObj = bcarr->array[i];
+        verObj = (json_object*)bcarr->array[i];
 
         bc_versionlist_read_version_json(&vl->versions[i + max], verObj);
     }
@@ -99,7 +99,7 @@ bc_versionlist_version *bc_versionlist_find(const char *id) {
 
     for (int i = 0; i < vl->versions_len; i++) {
         if (strcmp(vl->versions[i].id, id) == 0) {
-            version = malloc(sizeof(bc_versionlist_version));
+            version = (bc_versionlist_version*)malloc(sizeof(bc_versionlist_version));
 
             snprintf(version->id, sizeof(version->id), "%s",
                      vl->versions[i].id);

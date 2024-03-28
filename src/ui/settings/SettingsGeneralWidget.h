@@ -3,9 +3,7 @@
 
 #include <QWidget>
 
-extern "C" {
 #include "../../core/Settings.h"
-}
 
 class QGridLayout;
 class QGroupBox;

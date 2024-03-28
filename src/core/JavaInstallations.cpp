@@ -38,14 +38,14 @@ char *bc_java_version(const char *path) {
 
     pclose(fp);
 
-    char *out = malloc(strlen(version) + 1);
+    char *out = (char*)malloc(strlen(version) + 1);
     strcpy(out, version);
 
     return out;
 }
 
 void bc_java_download(const char *url) {
-    char *filename = strrchr(url, '/');
+    char *filename = (char*)strrchr(url, '/');
     char *dir_working = bc_file_directory_get_working();
 
     char path_download[PATH_MAX];
@@ -136,7 +136,7 @@ int bc_jrepo_check_os(const char *name, const char *arch) {
 }
 
 bc_jrepo_array *bc_jrepo_get_all() {
-    bc_jrepo_array *jrepo_array = malloc(sizeof(bc_jrepo_array));
+    bc_jrepo_array *jrepo_array = (bc_jrepo_array*)malloc(sizeof(bc_jrepo_array));
     json_object *json = json_object_from_file("java_repo.json");
 
     if (json == NULL) {
@@ -181,7 +181,7 @@ bc_jrepo_array *bc_jrepo_get_all() {
 
 bc_jrepo_download_array *bc_jrepo_get_all_system() {
     bc_jrepo_download_array *jrepo_download_array =
-        malloc(sizeof(bc_jrepo_download_array));
+        (bc_jrepo_download_array*)malloc(sizeof(bc_jrepo_download_array));
     bc_jrepo_array *jrepo_array = bc_jrepo_get_all();
 
     jrepo_download_array->len = 0;
@@ -343,7 +343,7 @@ bc_jinst_array *bc_jinst_get_all() {
     json_object_object_get_ex(json, "java", &java_object);
     json_object_object_get_ex(java_object, "installations", &arr);
 
-    jinst_array = malloc(sizeof(bc_jinst_array));
+    jinst_array = (bc_jinst_array*)malloc(sizeof(bc_jinst_array));
     jinst_array->len = json_object_array_length(arr);
 
     for (int i = 0; i < jinst_array->len; i++) {
@@ -377,7 +377,7 @@ bc_jinst *bc_jinst_get(const char *path) {
         const char *tmpPath = jext_get_string_dummy(tmp, "path");
 
         if (strcmp(tmpPath, path) == 0) {
-            jinst = malloc(sizeof(bc_jinst));
+            jinst = (bc_jinst*)malloc(sizeof(bc_jinst));
 
             snprintf(jinst->path, sizeof(jinst->path), "%s",
                      jext_get_string_dummy(tmp, "path"));
@@ -419,7 +419,7 @@ char *bc_jrepo_parse_version(const char *version) {
 
     ver[len] = '\0';
 
-    char *out = malloc(strlen(ver) + 1);
+    char *out = (char*)malloc(strlen(ver) + 1);
     strcpy(out, ver);
 
     return out;
@@ -445,7 +445,7 @@ char *bc_jrepo_get_recommended(const char *gameVersion) {
              version->javaVersion.advisedMaxVersion == maxVersion) ||
             (version->javaVersion.majorVersion > 0 &&
              version->javaVersion.majorVersion == maxVersion)) {
-            res = malloc(strlen(jrepo->arr[i].full_version) + 1);
+            res = (char*)malloc(strlen(jrepo->arr[i].full_version) + 1);
             strcpy(res, jrepo->arr[i].full_version);
             break;
         }

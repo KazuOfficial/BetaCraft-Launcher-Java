@@ -119,7 +119,7 @@ bc_account *bc_account_get(const char *uuid) {
         return NULL;
     }
 
-    bc_account *account = malloc(sizeof(bc_account));
+    bc_account *account = (bc_account*)malloc(sizeof(bc_account));
     json_object *tmp_accounts = json_object_array_get_idx(tmp, account_index);
 
     snprintf(account->uuid, sizeof(account->uuid), "%s",
@@ -133,7 +133,7 @@ bc_account *bc_account_get(const char *uuid) {
              jext_get_string_dummy(tmp_accounts, "access_token"));
     snprintf(account->refresh_token, sizeof(account->refresh_token), "%s",
              jext_get_string_dummy(tmp_accounts, "refresh_token"));
-    account->account_type = jext_get_int(tmp_accounts, "account_type");
+    account->account_type = (bc_account_type)jext_get_int(tmp_accounts, "account_type");
 
     json_object_put(json);
 
@@ -141,7 +141,7 @@ bc_account *bc_account_get(const char *uuid) {
 }
 
 bc_account_array *bc_account_list() {
-    bc_account_array *accounts = malloc(sizeof(bc_account_array));
+    bc_account_array *accounts = (bc_account_array*)malloc(sizeof(bc_account_array));
 
     json_object *json = json_object_from_file("accounts.json");
 
@@ -173,7 +173,7 @@ bc_account_array *bc_account_list() {
         snprintf(accounts->arr[i].refresh_token,
                  sizeof(accounts->arr[i].refresh_token), "%s",
                  jext_get_string_dummy(tmp_arr, "refresh_token"));
-        accounts->arr[i].account_type = jext_get_int(tmp_arr, "account_type");
+        accounts->arr[i].account_type = (bc_account_type)jext_get_int(tmp_arr, "account_type");
     }
 
     json_object_put(json);

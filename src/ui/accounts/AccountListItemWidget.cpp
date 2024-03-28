@@ -1,8 +1,6 @@
 #include "AccountListItemWidget.h"
 
-extern "C" {
 #include "../../core/Betacraft.h"
-}
 
 #include <QtWidgets>
 

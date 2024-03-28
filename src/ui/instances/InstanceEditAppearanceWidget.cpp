@@ -3,10 +3,8 @@
 #include "../Betacraft.h"
 #include <QtWidgets>
 
-extern "C" {
 #include "../../core/Betacraft.h"
 #include "../../core/FileSystem.h"
-}
 
 QString icon_path;
 

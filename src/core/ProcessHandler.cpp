@@ -53,14 +53,14 @@ void bc_unixprocess_create(bc_process_args *args, int output, bc_account *acc) {
 
             if (bc_process_log != NULL) {
                 char *newLog =
-                    malloc(strlen(bc_process_log) + strlen(buffer) + 1);
+                    (char*)malloc(strlen(bc_process_log) + strlen(buffer) + 1);
                 strcpy(newLog, bc_process_log);
                 strcat(newLog, buffer);
 
                 free(bc_process_log);
                 bc_process_log = newLog;
             } else {
-                bc_process_log = malloc(strlen(buffer) + 1);
+                bc_process_log = (char*)malloc(strlen(buffer) + 1);
                 strcpy(bc_process_log, buffer);
             }
 

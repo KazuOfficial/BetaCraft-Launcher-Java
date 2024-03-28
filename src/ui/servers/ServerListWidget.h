@@ -4,9 +4,7 @@
 #include <QWidget>
 #include <QtConcurrent>
 
-extern "C" {
 #include "../../core/Betacraft.h"
-}
 
 class QGridLayout;
 class QLineEdit;

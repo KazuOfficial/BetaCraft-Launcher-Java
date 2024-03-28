@@ -32,7 +32,7 @@
 
 char *bc_file_make_absolute_path(const char *relative_path) {
     char *workdir = bc_file_directory_get_working();
-    char *res = malloc(strlen(workdir) + strlen(relative_path) + 1);
+    char *res = (char*)malloc(strlen(workdir) + strlen(relative_path) + 1);
     sprintf(res, "%s%s", workdir, relative_path);
     free(workdir);
 #ifdef _WIN32
@@ -72,7 +72,7 @@ char *bc_file_absolute_path(const char *relative_path) {
         len++;
     }
 
-    char *realee = malloc(len + 1);
+    char *realee = (char*)malloc(len + 1);
     strcpy(realee, real);
 
     return realee;
@@ -129,7 +129,7 @@ void bc_file_create(const char *filepath, const char *data) {
 }
 
 bc_file_list_array *bc_file_list(const char *path) {
-    bc_file_list_array *arr = malloc(sizeof(bc_file_list_array));
+    bc_file_list_array *arr = (bc_file_list_array*)malloc(sizeof(bc_file_list_array));
     arr->len = 0;
 
     DIR *dir;
@@ -182,7 +182,7 @@ char *bc_file_minecraft_directory() {
     char *mcdir;
 #ifdef __APPLE__
     int size = strlen(application_support_path) + strlen("/minecraft/") + 1;
-    mcdir = malloc(size);
+    mcdir = (char*)malloc(size);
     snprintf(mcdir, size, "%s/minecraft/", application_support_path);
 #elif __linux__
     struct passwd *pw = getpwuid(getuid());
@@ -205,13 +205,13 @@ char *bc_file_directory_get_working() {
 #ifdef _WIN32
     real = _getcwd(NULL, PATH_MAX);
 #elif defined(__linux__) || defined(__APPLE__)
-    real = malloc(PATH_MAX);
+    real = (char*)malloc(PATH_MAX);
     getcwd(real, PATH_MAX);
 #endif
     int len = strlen(real);
 
     if (bc_file_directory_exists(real) && real[len - 1] != '/') {
-        real = realloc(real, len + 2);
+        real = (char*)realloc(real, len + 2);
         real[len] = '/';
         real[len + 1] = '\0';
     }
@@ -559,7 +559,7 @@ char *bc_file_uuid() {
     char v[] = {'0', '1', '2', '3', '4', '5', '6', '7',
                 '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
-    char *buf = malloc(37);
+    char *buf = (char*)malloc(37);
 
     srand(time(NULL));
     for (int i = 0; i < 36; ++i) {
@@ -576,7 +576,7 @@ char *bc_file_uuid() {
 }
 
 char *bc_file_os() {
-    char *os = malloc(32);
+    char *os = (char*)malloc(32);
 #ifdef _WIN64
     strcpy(os, "win64");
 #elif _WIN32

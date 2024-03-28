@@ -4,10 +4,8 @@
 #include "../Betacraft.h"
 #include <QtWidgets>
 
-extern "C" {
 #include "../../core/Instance.h"
 #include "../../core/Mod.h"
-}
 
 bc_server_array _serverArray;
 bool _serverListFetchPending = false;

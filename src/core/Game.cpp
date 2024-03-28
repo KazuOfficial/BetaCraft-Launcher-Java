@@ -215,14 +215,14 @@ char *bc_game_library_path(bc_version_library *lib) {
     }
 
     if (size == 3) {
-        libPath = malloc(strlen(pathParts[0]) + strlen("///--") +
+        libPath = (char*)malloc(strlen(pathParts[0]) + strlen("///--") +
                          2 * strlen(pathParts[1]) + 2 * strlen(pathParts[2]) +
                          strlen(pathParts[3]) + 1);
         sprintf(libPath, "%s/%s/%s/%s-%s-%s", replaced, pathParts[1],
                 pathParts[2], pathParts[1], pathParts[2], pathParts[3]);
     } else if (size == 2) {
         libPath =
-            malloc(strlen(pathParts[0]) + strlen("///-") +
+            (char*)malloc(strlen(pathParts[0]) + strlen("///-") +
                    2 * strlen(pathParts[1]) + 2 * strlen(pathParts[2]) + 1);
         sprintf(libPath, "%s/%s/%s/%s-%s", replaced, pathParts[1], pathParts[2],
                 pathParts[1], pathParts[2]);
@@ -278,7 +278,7 @@ void bc_game_download_lib(bc_version_library *lib, bc_game_data *data) {
 char *bc_game_get_assets_root() {
     char *location = bc_file_minecraft_directory();
     int size = strlen(location) + strlen("assets/") + 1;
-    char *path = malloc(size);
+    char *path = (char*)malloc(size);
 
     snprintf(path, size, "%sassets/", location);
     free(location);
@@ -334,7 +334,7 @@ char *bc_game_classpath(bc_game_data *data) {
                  data->version->id);
     }
 
-    char *classPath = malloc(strlen(versionPath) + 1);
+    char *classPath = (char*)malloc(strlen(versionPath) + 1);
     strcpy(classPath, versionPath);
 
     char *mcdir = bc_file_minecraft_directory();
@@ -354,7 +354,7 @@ char *bc_game_classpath(bc_game_data *data) {
                  libPath);
 
         classPath =
-            realloc(classPath, strlen(classPath) + strlen(filePath) + 1 + 1);
+            (char*)realloc(classPath, strlen(classPath) + strlen(filePath) + 1 + 1);
         sprintf(classPath, "%s%s%s", classPath, colon, filePath);
 
         free(libPath);
@@ -647,7 +647,7 @@ void bc_game_set_args(char *args, bc_process_args *gameArgs) {
     p = strtok(args, "\n");
 
     while (p != NULL) {
-        gameArgs->arr[gameArgs->len] = malloc(strlen(p) + 1);
+        gameArgs->arr[gameArgs->len] = (char*)malloc(strlen(p) + 1);
         strcpy(gameArgs->arr[gameArgs->len], p);
         gameArgs->len++;
 
@@ -686,7 +686,7 @@ void bc_game_run(bc_game_data *data) {
     bc_process_args gameArgs;
 
     char *userHome =
-        malloc(strlen("-Duser.home=") + strlen(data->instance->path) + 1);
+        (char*)malloc(strlen("-Duser.home=") + strlen(data->instance->path) + 1);
     sprintf(userHome, "-Duser.home=%s", data->instance->path);
 
     gameArgs.size = 0;
@@ -699,7 +699,7 @@ void bc_game_run(bc_game_data *data) {
     bc_game_concat_properties(data, data->version->arguments.jvm,
                               data->version->arguments.jvm_len, &gameArgs);
 
-    gameArgs.arr[gameArgs.len] = malloc(strlen(data->version->mainClass) + 1);
+    gameArgs.arr[gameArgs.len] = (char*)malloc(strlen(data->version->mainClass) + 1);
     strcpy(gameArgs.arr[gameArgs.len], data->version->mainClass);
     gameArgs.len++;
 

@@ -3,9 +3,7 @@
 
 #include <QWidget>
 
-extern "C" {
 #include "../../core/Instance.h"
-}
 
 #include "InstanceEditAppearanceWidget.h"
 #include "InstanceEditArgumentsWidget.h"

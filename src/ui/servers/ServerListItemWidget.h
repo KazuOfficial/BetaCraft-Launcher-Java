@@ -4,9 +4,7 @@
 #include <QWidget>
 #include <unordered_map>
 
-extern "C" {
 #include "../../core/Betacraft.h"
-}
 
 class QGridLayout;
 class QLabel;

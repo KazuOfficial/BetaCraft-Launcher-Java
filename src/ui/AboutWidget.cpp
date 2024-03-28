@@ -3,11 +3,9 @@
 
 #include <QtWidgets>
 
-extern "C" {
 #include "../core/Betacraft.h"
 #include "../core/FileSystem.h"
 #include "../core/Network.h"
-}
 
 AboutWidget::AboutWidget(QWidget *parent) : QWidget{parent} {
     initObjects();

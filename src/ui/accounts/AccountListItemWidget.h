@@ -3,9 +3,7 @@
 
 #include <QWidget>
 
-extern "C" {
 #include "../../core/Account.h"
-}
 
 class QGridLayout;
 class QLabel;

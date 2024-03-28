@@ -1,7 +1,7 @@
-set(CMAKE_C_STANDARD 99)
-set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-file(GLOB Core_SRC "*.h" "*.c")
+file(GLOB Core_SRC "*.h" "*.cpp")
 
 add_library(Core
     ${Core_SRC}

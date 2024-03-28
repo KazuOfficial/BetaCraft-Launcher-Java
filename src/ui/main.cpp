@@ -17,12 +17,10 @@
 #include <unistd.h>
 #endif
 
-extern "C" {
 #include "../core/Account.h"
 #include "../core/Betacraft.h"
 #include "../core/FileSystem.h"
 #include "../core/JavaInstallations.h"
-}
 
 void copyLanguageFiles() {
     char *workDir = bc_file_directory_get_working();

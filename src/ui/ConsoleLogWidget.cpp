@@ -1,9 +1,7 @@
 #include "ConsoleLogWidget.h"
 #include "Betacraft.h"
 
-extern "C" {
 #include "../core/ProcessHandler.h"
-}
 
 #include <QtWidgets>
 

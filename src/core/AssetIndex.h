@@ -13,7 +13,7 @@ typedef struct bc_assetindex_asset {
 typedef struct bc_assetindex {
     bc_assetindex_asset *objects;
     int len;
-    int virtual;
+    // int virtual;
     int mapToResources;
 } bc_assetindex;
 

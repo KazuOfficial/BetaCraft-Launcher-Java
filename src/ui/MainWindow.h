@@ -12,10 +12,8 @@
 #include "servers/ServerListWidget.h"
 #include "settings/SettingsWidget.h"
 
-extern "C" {
 #include "../core/Account.h"
 #include "../core/Instance.h"
-}
 
 class QPixmap;
 class QLabel;

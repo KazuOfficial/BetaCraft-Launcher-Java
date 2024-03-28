@@ -3,9 +3,7 @@
 #include "../Betacraft.h"
 #include <QtWidgets>
 
-extern "C" {
 #include "../../core/Network.h"
-}
 
 bc_instance instance;
 

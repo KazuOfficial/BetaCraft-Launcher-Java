@@ -3,9 +3,7 @@
 
 #include <QtWidgets>
 
-extern "C" {
 #include "../../../core/Mod.h"
-}
 
 bc_mod_array _modArray;
 

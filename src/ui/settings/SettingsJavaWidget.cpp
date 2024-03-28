@@ -9,10 +9,8 @@ QString _javaExecName = "java.exe (*.exe)";
 QString _javaExecName = "java (java *.plugin)";
 #endif
 
-extern "C" {
 #include "../../core/Betacraft.h"
 #include "../../core/Network.h"
-}
 
 char _currentDownloadUrl[256];
 bool _downloadRecommendedJava = false;

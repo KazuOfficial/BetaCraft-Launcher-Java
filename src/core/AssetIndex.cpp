@@ -16,7 +16,7 @@
 
 bc_assetindex *bc_assetindex_read_objects(const char *responseData) {
     json_object *responseJson = json_tokener_parse(responseData);
-    bc_assetindex *index = malloc(sizeof(bc_assetindex));
+    bc_assetindex *index = (bc_assetindex*)malloc(sizeof(bc_assetindex));
 
     json_object *assetArray = NULL;
     if (json_object_object_get_ex(responseJson, "objects", &assetArray)) {
@@ -25,7 +25,7 @@ bc_assetindex *bc_assetindex_read_objects(const char *responseData) {
         struct json_object_iterator itEnd = json_object_iter_end(assetArray);
 
         index->len = json_object_object_length(assetArray);
-        index->objects = malloc(index->len * sizeof(bc_assetindex_asset));
+        index->objects = (bc_assetindex_asset*)malloc(index->len * sizeof(bc_assetindex_asset));
 
         int pos = 0;
         while (!json_object_iter_equal(&itBegin, &itEnd)) {
@@ -48,7 +48,7 @@ bc_assetindex *bc_assetindex_read_objects(const char *responseData) {
         }
     }
 
-    index->virtual = jext_get_boolean(responseJson, "virtual");
+    // index->virtual = jext_get_boolean(responseJson, "virtual");
     index->mapToResources = jext_get_boolean(responseJson, "mapToResources");
 
     return index;
@@ -78,7 +78,7 @@ bc_assetindex *bc_assetindex_load(bc_version_assetIndexData *data) {
         json = json_object_from_file(jsonLoc);
         const char *json_str = json_object_to_json_string(json);
 
-        assetsData = malloc(sizeof(char) * strlen(json_str));
+        assetsData = (char*)malloc(sizeof(char) * strlen(json_str));
         strcpy(assetsData, json_str);
     }
 

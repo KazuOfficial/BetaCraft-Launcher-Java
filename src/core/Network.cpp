@@ -16,7 +16,7 @@ static size_t cb(void *data, size_t size, size_t nmemb, void *userp) {
     size_t realsize = size * nmemb;
     bc_memory *mem = (bc_memory *)userp;
 
-    char *ptr = realloc(mem->response, mem->size + realsize + 1);
+    char *ptr = (char*)realloc(mem->response, mem->size + realsize + 1);
     if (ptr == NULL)
         return 0;
 
@@ -150,7 +150,7 @@ int bc_network_download(const char *url, const char *dest, int isFile) {
     curl = curl_easy_init();
 
     if (curl) {
-        char *split = strrchr(url, '/');
+        char *split = (char*)strrchr(url, '/');
 
         char filename[PATH_MAX];
         snprintf(filename, sizeof(filename), "%s", split);

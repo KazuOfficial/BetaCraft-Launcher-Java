@@ -1,5 +1,4 @@
 ﻿cmake_minimum_required(VERSION 3.12)
-set(CMAKE_C_STANDARD_REQUIRED 99)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(CMAKE_BUILD_TYPE "Release")

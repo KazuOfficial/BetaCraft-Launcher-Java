@@ -3,9 +3,7 @@
 #include "../Betacraft.h"
 #include <QtWidgets>
 
-extern "C" {
 #include "../../core/AuthMicrosoft.h"
-}
 
 bc_auth_microsoftDeviceResponse _authDeviceRes;
 

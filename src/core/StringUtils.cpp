@@ -24,7 +24,7 @@ void repl_str(char *source, char *substring, char *with) {
 
 char *repl_str_alloc(char *source, char *substring, char *with,
                      int freeSource) {
-    char *ret = malloc(strlen(source) + strlen(with) + 1);
+    char *ret = (char*)malloc(strlen(source) + strlen(with) + 1);
     strcpy(ret, source);
 
     if (freeSource) {

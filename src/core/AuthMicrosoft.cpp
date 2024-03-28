@@ -90,7 +90,7 @@ void bc_auth_microsoft(const char *refresh_token) {
     bc_account *account = bc_account_get(profile->id);
 
     if (account == NULL) {
-        bc_account *new_account = malloc(sizeof(bc_account));
+        bc_account *new_account = (bc_account*)malloc(sizeof(bc_account));
 
         snprintf(new_account->username, sizeof(new_account->username), "%s",
                  profile->username);
@@ -133,7 +133,7 @@ void bc_auth_microsoft(const char *refresh_token) {
 
 bc_auth_microsoftDeviceResponse *bc_auth_microsoft_device() {
     bc_auth_microsoftDeviceResponse *res =
-        malloc(sizeof(bc_auth_microsoftDeviceResponse));
+        (bc_auth_microsoftDeviceResponse*)malloc(sizeof(bc_auth_microsoftDeviceResponse));
 
     char data[100];
     snprintf(data, sizeof(data),
@@ -186,7 +186,7 @@ int bc_auth_microsoft_check_token(const char *data,
 
 bc_auth_microsoftResponse *
 bc_auth_microsoft_refresh_token(const char *refresh_token) {
-    bc_auth_microsoftResponse *res = malloc(sizeof(bc_auth_microsoftResponse));
+    bc_auth_microsoftResponse *res = (bc_auth_microsoftResponse*)malloc(sizeof(bc_auth_microsoftResponse));
 
     char *error;
     char data[2048];
@@ -204,7 +204,7 @@ bc_auth_microsoft_refresh_token(const char *refresh_token) {
 
 bc_auth_microsoftResponse *
 bc_auth_microsoft_device_token(const bc_auth_microsoftDeviceResponse *dev) {
-    bc_auth_microsoftResponse *res = malloc(sizeof(bc_auth_microsoftResponse));
+    bc_auth_microsoftResponse *res = (bc_auth_microsoftResponse*)malloc(sizeof(bc_auth_microsoftResponse));
 
     char *error;
     char data[2048];
@@ -222,7 +222,7 @@ bc_auth_microsoft_device_token(const bc_auth_microsoftDeviceResponse *dev) {
 }
 
 bc_auth_XBLResponse *bc_auth_microsoft_xbl(const char *access_token) {
-    bc_auth_XBLResponse *res = malloc(sizeof(bc_auth_XBLResponse));
+    bc_auth_XBLResponse *res = (bc_auth_XBLResponse*)malloc(sizeof(bc_auth_XBLResponse));
 
     json_object *data = json_object_new_object();
     json_object *properties = json_object_new_object();
@@ -321,7 +321,7 @@ char *bc_auth_minecraft(const char *uhs, const char *xsts_token) {
 }
 
 bc_auth_minecraftAccount *bc_auth_minecraft_profile(const char *token) {
-    bc_auth_minecraftAccount *res = malloc(sizeof(bc_auth_minecraftAccount));
+    bc_auth_minecraftAccount *res = (bc_auth_minecraftAccount*)malloc(sizeof(bc_auth_minecraftAccount));
 
     char auth[4096];
     snprintf(auth, sizeof(auth), "Authorization: Bearer %s", token);
