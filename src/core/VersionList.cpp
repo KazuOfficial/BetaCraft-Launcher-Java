@@ -3,7 +3,9 @@
 #include "Betacraft.h"
 #include "FileSystem.h"
 #include "JsonExtension.h"
-#include "Network.h"
+#include "cpr/api.h"
+#include "cpr/cprtypes.h"
+#include <cpr/cpr.h>
 
 #include <stdio.h>
 #include <string.h>
@@ -77,18 +79,27 @@ bc_versionlist *bc_versionlist_read_json(json_object *obj,
 }
 
 bc_versionlist *bc_versionlist_fetch() {
-    char *response = bc_network_get(
-        "https://launchermeta.mojang.com/mc/game/version_manifest.json", NULL);
-    json_object *obj = json_tokener_parse(response);
-    free(response);
+    cpr::Response response = cpr::Get(cpr::Url{"https://launchermeta.mojang.com/mc/game/version_manifest.json"});
+
+    if (response.status_code != 200) {
+        return NULL;
+    }
+
+    json_object *obj = json_tokener_parse(response.text.c_str());
 
     if (obj == NULL)
         return NULL;
 
-    response = bc_network_get(
-        "http://files.betacraft.uk/launcher/v2/assets/version_list.json", NULL);
-    json_object *bcList = json_tokener_parse(response);
-    free(response);
+    response = cpr::Get(cpr::Url{"http://files.betacraft.uk/launcher/v2/assets/version_list.json"});
+
+    if (response.status_code != 200) {
+        return NULL;
+    }
+
+    json_object *bcList = json_tokener_parse(response.text.c_str());
+
+    if (obj == NULL)
+        return NULL;
 
     return bc_versionlist_read_json(obj, bcList);
 }
@@ -138,8 +149,9 @@ int bc_versionlist_download(const char *gameVersion) {
         return 1;
     }
 
-    int result = bc_network_download(version->url, jsonLoc, 1);
+    std::ofstream of(jsonLoc, std::ios::binary);
+    cpr::Response response = cpr::Download(of, cpr::Url{version->url});
     free(version);
 
-    return result;
+    return response.status_code == 200;
 }

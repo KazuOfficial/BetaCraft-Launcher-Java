@@ -1,10 +1,7 @@
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-file(GLOB Core_SRC "*.h" "*.cpp")
+file(GLOB CoreSource "*.h" "*.cpp")
 
 add_library(Core
-    ${Core_SRC}
+    ${CoreSource}
     ../../lib/discord_game_sdk/discord_game_sdk.h
 )
 
@@ -25,8 +22,10 @@ elseif (UNIX AND NOT APPLE) # Linux
     target_link_libraries(Core PUBLIC discordgamesdk)
 endif()
 
+target_link_directories(Core PUBLIC ${CMAKE_SOURCE_DIR}/lib/nlohmann/)
+
 target_link_libraries(Core PUBLIC
-    libcurl
+    cpr::cpr
     json-c
     archive
 )

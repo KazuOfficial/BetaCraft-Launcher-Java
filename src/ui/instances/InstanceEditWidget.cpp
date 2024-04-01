@@ -3,8 +3,6 @@
 #include "../Betacraft.h"
 #include <QtWidgets>
 
-#include "../../core/Network.h"
-
 bc_instance instance;
 
 InstanceEditWidget::InstanceEditWidget(QWidget *parent) : QWidget{parent} {

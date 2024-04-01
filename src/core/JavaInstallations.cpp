@@ -2,14 +2,15 @@
 #include "FileSystem.h"
 #include "JsonExtension.h"
 #include "Logger.h"
-#include "Network.h"
 #include "Version.h"
 
 #include <assert.h>
+#include <fstream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <cpr/cpr.h>
 
 #ifdef __APPLE__
 #include <TargetConditionals.h>
@@ -70,10 +71,12 @@ void bc_java_download(const char *url) {
     path_dir[strlen(path_dir) - 1] = '/';
 
     make_path(path_dir, 0);
-    int downloadRes = bc_network_download(url, "java/", 0);
+    std::ofstream of("java/", std::ios::binary);
+    cpr::Response response = cpr::Download(of, cpr::Url{url});
 
-    if (!downloadRes)
+    if (response.status_code != 200) {
         return;
+    }
 
     bc_log("%s %s\n", "Downloaded Java to", path_dir);
     bc_file_extract(path_download, path_dir);

@@ -3,6 +3,7 @@
 #include "../../core/Betacraft.h"
 
 #include <QtWidgets>
+#include <string>
 
 AccountListItemWidget::AccountListItemWidget(bc_account a, QWidget *parent)
     : QWidget{parent} {
@@ -12,16 +13,14 @@ AccountListItemWidget::AccountListItemWidget(bc_account a, QWidget *parent)
     _uuid = new QLabel(a.uuid, this);
     _image->setStyleSheet(".QLabel { margin-right: 4px; }");
 
-    bc_memory avatar = bc_avatar_get(a.uuid);
+    std::string avatar = bc_avatar_get(a.uuid);
 
-    if (QString(avatar.response).compare("Invalid UUID") != 0) {
+    if (avatar != "Invalid UUID") {
         QPixmap pic;
-        pic.loadFromData((const uchar *)avatar.response, avatar.size, "PNG");
+        pic.loadFromData((const uchar *)avatar.c_str(), avatar.length(), "PNG");
         _image->setPixmap(
             pic.scaled(64, 64, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     }
-
-    free(avatar.response);
 
     _name->setStyleSheet(".QLabel { font-size: 15px; font-weight: bold; }");
 

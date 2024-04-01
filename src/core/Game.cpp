@@ -4,9 +4,9 @@
 #include "FileSystem.h"
 #include "JavaInstallations.h"
 #include "Logger.h"
-#include "Network.h"
 #include "ProcessHandler.h"
 #include "StringUtils.h"
+#include <cpr/cpr.h>
 
 #include <json.h>
 #include <stdio.h>
@@ -51,7 +51,8 @@ void bc_game_download(const char *url, int size, const char *fileloc) {
     if (!bc_file_exists(fileloc) || bc_file_size(fileloc) != size) {
         make_path(fileloc, 1);
 
-        bc_network_download(url, fileloc, 1);
+        std::ofstream of(fileloc, std::ios::binary);
+        cpr::Response response = cpr::Download(of, cpr::Url{url});
     }
 }
 

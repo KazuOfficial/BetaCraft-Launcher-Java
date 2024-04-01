@@ -3,12 +3,16 @@
 #include "Account.h"
 #include "JsonExtension.h"
 #include "Logger.h"
-#include "Network.h"
+#include <cpr/cpr.h>
+#include <stdlib.h>
+#include "cpr/payload.h"
+#include "json_object.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <cpr/cpr.h>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -135,16 +139,13 @@ bc_auth_microsoftDeviceResponse *bc_auth_microsoft_device() {
     bc_auth_microsoftDeviceResponse *res =
         (bc_auth_microsoftDeviceResponse*)malloc(sizeof(bc_auth_microsoftDeviceResponse));
 
-    char data[100];
-    snprintf(data, sizeof(data),
-             "client_id=%s&scope=XboxLive.signin offline_access",
-             API_MICROSOFT_CLIENT_ID);
+    const cpr::Payload payload {
+        { "client_id", API_MICROSOFT_CLIENT_ID },
+        { "scope", "XboxLive.signin offline_access" }
+    };
 
-    char *response =
-        bc_network_post(API_MICROSOFT_DEVICECODE, data,
-                        "Content-Type: application/x-www-form-urlencoded");
-    json_object *json = json_tokener_parse(response);
-    free(response);
+    cpr::Response response = cpr::Post(cpr::Url{API_MICROSOFT_DEVICECODE}, payload);
+    json_object *json = json_tokener_parse(response.text.c_str());
 
     snprintf(res->user_code, sizeof(res->user_code), "%s",
              jext_get_string_dummy(json, "user_code"));
@@ -160,13 +161,10 @@ bc_auth_microsoftDeviceResponse *bc_auth_microsoft_device() {
     return res;
 }
 
-int bc_auth_microsoft_check_token(const char *data,
+int bc_auth_microsoft_check_token(const cpr::Payload& payload,
                                   bc_auth_microsoftResponse *res) {
-    char *response =
-        bc_network_post(API_MICROSOFT_TOKEN, data,
-                        "Content-Type: application/x-www-form-urlencoded");
-    json_object *json = json_tokener_parse(response);
-    free(response);
+    cpr::Response response = cpr::Post(cpr::Url{API_MICROSOFT_TOKEN}, payload);
+    json_object *json = json_tokener_parse(response.text.c_str());
 
     const char *error = jext_get_string_dummy(json, "error");
 
@@ -194,7 +192,13 @@ bc_auth_microsoft_refresh_token(const char *refresh_token) {
              "grant_type=refresh_token&client_id=%s&refresh_token=%s",
              API_MICROSOFT_CLIENT_ID, refresh_token);
 
-    if (!bc_auth_microsoft_check_token(data, res)) {
+    const cpr::Payload payload {
+        { "grant_type", "refresh_token" },
+        { "client_id", API_MICROSOFT_CLIENT_ID },
+        { "refresh_token", refresh_token }
+    };
+
+    if (!bc_auth_microsoft_check_token(payload, res)) {
         // TODO: handle (malformed request/token? no connection? api down?)
         return res;
     }
@@ -213,8 +217,14 @@ bc_auth_microsoft_device_token(const bc_auth_microsoftDeviceResponse *dev) {
              "id=%s&device_code=%s",
              API_MICROSOFT_CLIENT_ID, dev->device_code);
 
+    const cpr::Payload payload {
+        { "grant_type", "urn:ietf:params:oauth:grant-type:device_code" },
+        { "client_id", API_MICROSOFT_CLIENT_ID },
+        { "device_code", dev->device_code }
+    };
+
     // while authorization pending
-    while (bc_auth_microsoft_check_token(data, res)) {
+    while (bc_auth_microsoft_check_token(payload, res)) {
         sleep(dev->interval * sleepMultiplier);
     }
 
@@ -242,12 +252,13 @@ bc_auth_XBLResponse *bc_auth_microsoft_xbl(const char *access_token) {
                            json_object_new_string("http://auth.xboxlive.com"));
     json_object_object_add(data, "TokenType", json_object_new_string("JWT"));
 
-    char *response =
-        bc_network_post(API_XBOX_XBL, json_object_to_json_string(data),
-                        "Content-Type: application/json");
-    json_object *json = json_tokener_parse(response);
+    cpr::Response response = cpr::Post(
+        cpr::Url{API_XBOX_XBL},
+        cpr::Body{json_object_to_json_string(data)},
+        cpr::Header{{"Content-Type", "application/json"}});
+
+    json_object *json = json_tokener_parse(response.text.c_str());
     json_object *tmp;
-    free(response);
 
     snprintf(res->token, sizeof(res->token), "%s",
              jext_get_string_dummy(json, "Token"));
@@ -281,11 +292,12 @@ char *bc_auth_microsoft_xsts(const char *xbl_token) {
         json_object_new_string("rp://api.minecraftservices.com/"));
     json_object_object_add(data, "TokenType", json_object_new_string("JWT"));
 
-    char *response =
-        bc_network_post(API_XBOX_XSTS, json_object_to_json_string(data),
-                        "Content-Type: application/json");
-    json_object *json = json_tokener_parse(response);
-    free(response);
+    cpr::Response response = cpr::Post(
+        cpr::Url{API_XBOX_XSTS},
+        cpr::Body{json_object_to_json_string(data)},
+        cpr::Header{{"Content-Type", "application/json"}});
+
+    json_object *json = json_tokener_parse(response.text.c_str());
 
     char *token_xsts = jext_get_string(json, "Token");
 
@@ -305,11 +317,12 @@ char *bc_auth_minecraft(const char *uhs, const char *xsts_token) {
     json_object_object_add(data, "identityToken",
                            json_object_new_string(identity_token));
 
-    char *response =
-        bc_network_post(API_MINECRAFT, json_object_to_json_string(data),
-                        "Content-Type: application/json");
-    json_object *json = json_tokener_parse(response);
-    free(response);
+    cpr::Response response = cpr::Post(
+        cpr::Url{API_MINECRAFT},
+        cpr::Body{json_object_to_json_string(data)},
+        cpr::Header{{"Content-Type", "application/json"}});
+
+    json_object *json = json_tokener_parse(response.text.c_str());
 
     char *token = jext_get_string(json, "access_token");
     bc_log("%s\n", "Processed Minecraft auth successfully");
@@ -323,12 +336,8 @@ char *bc_auth_minecraft(const char *uhs, const char *xsts_token) {
 bc_auth_minecraftAccount *bc_auth_minecraft_profile(const char *token) {
     bc_auth_minecraftAccount *res = (bc_auth_minecraftAccount*)malloc(sizeof(bc_auth_minecraftAccount));
 
-    char auth[4096];
-    snprintf(auth, sizeof(auth), "Authorization: Bearer %s", token);
-
-    char *response = bc_network_get(API_MINECRAFT_PROFILE, auth);
-    json_object *json = json_tokener_parse(response);
-    free(response);
+    cpr::Response response = cpr::Get(cpr::Url{API_MINECRAFT_PROFILE}, cpr::Bearer{token});
+    json_object *json = json_tokener_parse(response.text.c_str());
 
     snprintf(res->id, sizeof(res->id), "%s", jext_get_string_dummy(json, "id"));
     snprintf(res->username, sizeof(res->username), "%s",

@@ -1,6 +1,5 @@
 #include "ProcessHandler.h"
 #include "Game.h"
-#include "Logger.h"
 #include "StringUtils.h"
 
 #include <stdio.h>

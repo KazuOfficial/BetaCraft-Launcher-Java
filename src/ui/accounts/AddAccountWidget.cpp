@@ -4,8 +4,6 @@
 #include "../Betacraft.h"
 #include <QtWidgets>
 
-#include "../../core/Betacraft.h"
-
 AddAccountWidget::AddAccountWidget(QWidget *parent) : QWidget{parent} {
     _layout = new QGridLayout(this);
     _menu = new QTabWidget(this);

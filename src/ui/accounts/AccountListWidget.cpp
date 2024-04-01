@@ -4,8 +4,6 @@
 #include "../Betacraft.h"
 #include <QtWidgets>
 
-#include "../../core/Betacraft.h"
-
 AccountListWidget::AccountListWidget(QWidget *parent) : QWidget{parent} {
     _layout = new QGridLayout(this);
     _accountList = new QListWidget(this);

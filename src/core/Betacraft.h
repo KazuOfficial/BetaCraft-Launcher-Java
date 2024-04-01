@@ -1,8 +1,9 @@
 #ifndef BC_BETACRAFT_H
 #define BC_BETACRAFT_H
 
-#include "Network.h"
+#include <cstddef>
 #include <limits.h>
+#include <string>
 
 #define BETACRAFT_VERSION "2.0.0-alpha.20230623"
 #define BETACRAFT_MAX_SIZE 65536
@@ -61,7 +62,7 @@ typedef struct bc_server_array {
 } bc_server_array;
 
 int bc_server_list(bc_server_array *server_list);
-bc_memory bc_avatar_get(const char *uuid);
+std::string bc_avatar_get(const char *uuid);
 int bc_update_check(char *updateVersion);
 
 #endif

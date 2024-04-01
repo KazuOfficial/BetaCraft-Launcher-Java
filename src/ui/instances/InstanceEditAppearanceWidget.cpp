@@ -3,9 +3,6 @@
 #include "../Betacraft.h"
 #include <QtWidgets>
 
-#include "../../core/Betacraft.h"
-#include "../../core/FileSystem.h"
-
 QString icon_path;
 
 InstanceEditAppearanceWidget::InstanceEditAppearanceWidget(QWidget *parent)

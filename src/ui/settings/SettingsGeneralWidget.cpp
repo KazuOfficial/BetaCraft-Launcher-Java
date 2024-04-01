@@ -2,8 +2,7 @@
 
 #include "../Betacraft.h"
 #include <QtWidgets>
-
-#include "../../core/Betacraft.h"
+#include "../../core/Settings.h"
 
 SettingsGeneralWidget::SettingsGeneralWidget(QWidget *parent)
     : QWidget{parent} {

@@ -3,8 +3,6 @@
 
 #include <QtWidgets>
 
-#include "../../../core/Betacraft.h"
-
 bool isRepoWidgetVisible = false;
 
 InstanceEditModsWidget::InstanceEditModsWidget(QWidget *parent)
@@ -186,33 +184,33 @@ void InstanceEditModsWidget::onRemoveButtonClicked() {
 }
 
 void InstanceEditModsWidget::ModInstallProgressBarUpdate() {
-    bc_download_progress progress = bc_network_progress;
-
-    if (progress.filename[0] == '\0') {
-        _progressBar->setFormat(bc_translate("downloading_undefined") + "...");
-    }
-
-    QString progressString(progress.filename);
-    progressString = progressString.split('/').last();
-
-    if (progress.totalToDownload > 0) {
-        _progressBar->setRange(0, progress.totalToDownload);
-        _progressBar->setValue(progress.nowDownloaded);
-        progressString +=
-            " - " + QString::number(progress.nowDownloadedMb, 'f', 2) + "MB";
-        progressString +=
-            " / " + QString::number(progress.totalToDownloadMb, 'f', 2) + "MB";
-    } else if (progress.nowDownloaded > 0) {
-        _progressBar->setRange(0, 100);
-        _progressBar->setValue(100);
-        progressString +=
-            " - " + QString::number(progress.nowDownloadedMb, 'f', 2) + "MB";
-    }
-
-    QString filename(progress.filename);
-    filename = bc_translate("downloading_undefined") + ": " + progressString;
-
-    _progressBar->setFormat(filename);
+    // bc_download_progress progress = bc_network_progress;
+    //
+    // if (progress.filename[0] == '\0') {
+    //     _progressBar->setFormat(bc_translate("downloading_undefined") + "...");
+    // }
+    //
+    // QString progressString(progress.filename);
+    // progressString = progressString.split('/').last();
+    //
+    // if (progress.totalToDownload > 0) {
+    //     _progressBar->setRange(0, progress.totalToDownload);
+    //     _progressBar->setValue(progress.nowDownloaded);
+    //     progressString +=
+    //         " - " + QString::number(progress.nowDownloadedMb, 'f', 2) + "MB";
+    //     progressString +=
+    //         " / " + QString::number(progress.totalToDownloadMb, 'f', 2) + "MB";
+    // } else if (progress.nowDownloaded > 0) {
+    //     _progressBar->setRange(0, 100);
+    //     _progressBar->setValue(100);
+    //     progressString +=
+    //         " - " + QString::number(progress.nowDownloadedMb, 'f', 2) + "MB";
+    // }
+    //
+    // QString filename(progress.filename);
+    // filename = bc_translate("downloading_undefined") + ": " + progressString;
+    //
+    // _progressBar->setFormat(filename);
 }
 
 void InstanceEditModsWidget::onModDownloadStarted() {

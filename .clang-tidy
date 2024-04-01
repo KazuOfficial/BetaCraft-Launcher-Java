@@ -1,8 +1,0 @@
----
-Checks: '-*,clang-diagnostic-*,clang-analyzer-*,cert-*,modernize-*,cppcoreguidelines-*,performance-*,portability-*,readability-*,bugprone-*,llvm-*,-cppcoreguidelines-avoid-non-const-global-variables'
-HeaderFileExtensions: ['h']
-ImplementationFileExtensions: ['c','cpp']
-WarningsAsErrors: '*'
-HeaderFilterRegex: ''
-FormatStyle: llvm
----

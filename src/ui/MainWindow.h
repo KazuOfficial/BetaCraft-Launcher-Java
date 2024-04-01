@@ -12,9 +12,6 @@
 #include "servers/ServerListWidget.h"
 #include "settings/SettingsWidget.h"
 
-#include "../core/Account.h"
-#include "../core/Instance.h"
-
 class QPixmap;
 class QLabel;
 class QLineEdit;
@@ -48,7 +45,6 @@ class MainWindow : public QWidget {
     void onToggleDiscordRPC();
     void launchGameJoinServer(const char *ip, const char *port);
     void updateCheck();
-    void loadChangelog();
 
   private:
     QGridLayout *_mainLayout;
@@ -67,7 +63,6 @@ class MainWindow : public QWidget {
     QLabel *_accountLabel;
     QProgressBar *_progressBar;
     QFutureWatcher<void> _watcher;
-    QFutureWatcher<char *> _changelogWatcher;
     QFutureWatcher<int> _updateWatcher;
     QTimer *_gameProgressTimer;
     QTimer *_discordLoopTimer;

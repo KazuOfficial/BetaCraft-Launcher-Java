@@ -1,9 +1,10 @@
-[submodule "lib/curl"]
-	path = lib/curl
-	url = https://github.com/curl/curl.git
 [submodule "lib/json-c"]
 	path = lib/json-c
 	url = https://github.com/json-c/json-c.git
 [submodule "lib/libarchive"]
 	path = lib/libarchive
 	url = https://github.com/libarchive/libarchive.git
+[submodule "lib/cpr"]
+	path = lib/cpr
+	url = https://github.com/libcpr/cpr.git
+	branch = 1.9.x

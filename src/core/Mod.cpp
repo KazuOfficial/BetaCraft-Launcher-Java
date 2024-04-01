@@ -1,12 +1,7 @@
 #include "Mod.h"
-#include "Account.h"
 #include "FileSystem.h"
-#include "Game.h"
-#include "Instance.h"
 #include "JsonExtension.h"
-#include "Network.h"
-#include "Settings.h"
-#include "Version.h"
+#include <cpr/cpr.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,10 +16,9 @@ bc_mod_array *bc_mod_list(const char *version) {
     snprintf(endpoint, sizeof(endpoint), "%s?game_version=%s", API_MODS,
              version);
 
-    char *response = bc_network_get(endpoint, NULL);
-    json_object *json = json_tokener_parse(response);
+    cpr::Response response = cpr::Get(cpr::Url{endpoint});
+    json_object *json = json_tokener_parse(response.text.c_str());
     json_object *tmp, *tmp_versions, *tmp_v, *tmp_requirements, *tmp_r;
-    free(response);
 
     mod_list->len = 0;
 
@@ -291,7 +285,8 @@ void bc_mod_download_version(bc_mod_version *mod, const char *instance_path,
 
     if (!bc_file_directory_exists(directory)) {
         make_path(directory, 0);
-        bc_network_download(mod->download_url, directory, 0);
+        std::ofstream of(directory, std::ios::binary);
+        cpr::Response response = cpr::Download(of, cpr::Url{mod->download_url});
 
         snprintf(path, sizeof(path), "%s%s", directory, filename);
 

@@ -3,8 +3,6 @@
 
 #include <QWidget>
 
-#include "../../core/Settings.h"
-
 class QGridLayout;
 class QGroupBox;
 class QComboBox;

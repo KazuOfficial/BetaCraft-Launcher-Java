@@ -2,12 +2,13 @@
 
 #include "Betacraft.h"
 #include <QtWidgets>
+#include <cpr/cpr.h>
 
 #include "../core/Betacraft.h"
 #include "../core/Discord.h"
 #include "../core/JavaInstallations.h"
-#include "../core/Network.h"
 #include "../core/VersionList.h"
+#include "../core/Account.h"
 
 char _updateVersion[BETACRAFT_MAX_UPDATE_TAG_SIZE] = "";
 
@@ -32,12 +33,12 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
 
 void MainWindow::onStartup() {
     if (betacraft_online) {
-        QFuture<char *> future =
-            QtConcurrent::run(bc_network_get,
-                              "https://raw.githubusercontent.com/betacraftuk/"
-                              "betacraft-launcher/v2/CHANGELOG.md",
-                              "");
-        _changelogWatcher.setFuture(future);
+        cpr::AsyncResponse fr = cpr::GetAsync(
+            cpr::Url{"https://raw.githubusercontent.com/betacraftuk/"
+                "betacraft-launcher/v2/CHANGELOG.md"});
+
+        cpr::Response r = fr.get();
+        _changelog->setMarkdown(QString::fromStdString(r.text));
 
         QFuture<int> updateFuture =
             QtConcurrent::run(bc_update_check, _updateVersion);
@@ -155,12 +156,6 @@ void MainWindow::initProgressBar() {
     _progressBar->setRange(0, 100);
 }
 
-void MainWindow::loadChangelog() {
-    char *response = _changelogWatcher.future().result();
-    _changelog->setMarkdown(QString(response));
-    free(response);
-}
-
 void MainWindow::connectSignalsToSlots() {
     connect(_gameProgressTimer, SIGNAL(timeout()), this,
             SLOT(updateGameProgress()));
@@ -182,8 +177,6 @@ void MainWindow::connectSignalsToSlots() {
             &MainWindow::updateCheck);
 
     if (betacraft_online) {
-        connect(&_changelogWatcher, &QFutureWatcher<char *>::finished, this,
-                &MainWindow::loadChangelog);
         connect(_serverListWidget,
                 SIGNAL(signal_serverGameLaunch(const char *, const char *)),
                 this, SLOT(launchGameJoinServer(const char *, const char *)));
@@ -278,68 +271,68 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
 }
 
 void MainWindow::updateGameProgress() {
-    bc_download_progress downloadProgress = bc_network_progress;
-    bc_progress gameProgress = bc_instance_run_progress();
-    _progressBar->setValue(gameProgress.progress);
-
-    if (_progressBar->value() == 100) {
-        _progressBar->setFormat(bc_translate("running_game"));
-        _gameProgressTimer->stop();
-
-        if (_instanceSelectedShowLog) {
-            _consoleLog->show();
-        }
-
-        if (!_instanceSelectedKeepOpen) {
-            MainWindow::close();
-        }
-    } else {
-        if (downloadProgress.filename[0] == '\0') {
-            _progressBar->setFormat(bc_translate("running_game"));
-            return;
-        }
-
-        QString progressString("");
-
-        switch (gameProgress.download_type) {
-        case BC_DOWNLOAD_TYPE_VERSION:
-            progressString += bc_translate("downloading_version") + ": ";
-            break;
-        case BC_DOWNLOAD_TYPE_LIBRARIES:
-            progressString += bc_translate("downloading_libraries") + ": ";
-            break;
-        case BC_DOWNLOAD_TYPE_ASSETS:
-            progressString += bc_translate("downloading_assets") + ": ";
-            break;
-        default:
-            progressString += bc_translate("downloading_undefined") + ": ";
-            break;
-        }
-
-        progressString += QString(downloadProgress.filename).split('/').last();
-
-        if (downloadProgress.nowDownloaded > 0) {
-            progressString +=
-                " - " +
-                QString::number(downloadProgress.nowDownloadedMb, 'f', 2) +
-                "MB";
-        }
-
-        if (downloadProgress.totalToDownload > 0) {
-            progressString +=
-                " / " +
-                QString::number(downloadProgress.totalToDownloadMb, 'f', 2) +
-                "MB";
-        }
-
-        if (gameProgress.cur > 0 && gameProgress.total > 0) {
-            progressString += QString(" (%1 / %2)")
-                                  .arg(gameProgress.cur)
-                                  .arg(gameProgress.total);
-        }
-
-        _progressBar->setFormat(progressString);
-    }
+    // bc_download_progress downloadProgress = bc_network_progress;
+    // bc_progress gameProgress = bc_instance_run_progress();
+    // _progressBar->setValue(gameProgress.progress);
+    //
+    // if (_progressBar->value() == 100) {
+    //     _progressBar->setFormat(bc_translate("running_game"));
+    //     _gameProgressTimer->stop();
+    //
+    //     if (_instanceSelectedShowLog) {
+    //         _consoleLog->show();
+    //     }
+    //
+    //     if (!_instanceSelectedKeepOpen) {
+    //         MainWindow::close();
+    //     }
+    // } else {
+    //     if (downloadProgress.filename[0] == '\0') {
+    //         _progressBar->setFormat(bc_translate("running_game"));
+    //         return;
+    //     }
+    //
+    //     QString progressString("");
+    //
+    //     switch (gameProgress.download_type) {
+    //     case BC_DOWNLOAD_TYPE_VERSION:
+    //         progressString += bc_translate("downloading_version") + ": ";
+    //         break;
+    //     case BC_DOWNLOAD_TYPE_LIBRARIES:
+    //         progressString += bc_translate("downloading_libraries") + ": ";
+    //         break;
+    //     case BC_DOWNLOAD_TYPE_ASSETS:
+    //         progressString += bc_translate("downloading_assets") + ": ";
+    //         break;
+    //     default:
+    //         progressString += bc_translate("downloading_undefined") + ": ";
+    //         break;
+    //     }
+    //
+    //     progressString += QString(downloadProgress.filename).split('/').last();
+    //
+    //     if (downloadProgress.nowDownloaded > 0) {
+    //         progressString +=
+    //             " - " +
+    //             QString::number(downloadProgress.nowDownloadedMb, 'f', 2) +
+    //             "MB";
+    //     }
+    //
+    //     if (downloadProgress.totalToDownload > 0) {
+    //         progressString +=
+    //             " / " +
+    //             QString::number(downloadProgress.totalToDownloadMb, 'f', 2) +
+    //             "MB";
+    //     }
+    //
+    //     if (gameProgress.cur > 0 && gameProgress.total > 0) {
+    //         progressString += QString(" (%1 / %2)")
+    //                               .arg(gameProgress.cur)
+    //                               .arg(gameProgress.total);
+    //     }
+    //
+    //     _progressBar->setFormat(progressString);
+    // }
 }
 
 bool MainWindow::recommendedJavaCheck() {

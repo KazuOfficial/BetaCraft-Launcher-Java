@@ -10,7 +10,7 @@ QString _javaExecName = "java (java *.plugin)";
 #endif
 
 #include "../../core/Betacraft.h"
-#include "../../core/Network.h"
+#include "../../core/JavaInstallations.h"
 
 char _currentDownloadUrl[256];
 bool _downloadRecommendedJava = false;
@@ -100,8 +100,8 @@ SettingsJavaWidget::SettingsJavaWidget(QWidget *parent) : QWidget{parent} {
             &SettingsJavaWidget::downloadFinished);
     connect(_progressTimer, SIGNAL(timeout()), this,
             SLOT(JavaInstallProgressUpdate()));
-    connect(_cancelDownloadButton, &QPushButton::released, this,
-            [this]() { bc_network_cancel = 1; });
+    // connect(_cancelDownloadButton, &QPushButton::released, this,
+    //         [this]() { bc_network_cancel = 1; });
 }
 
 void SettingsJavaWidget::downloadRecommendedJava(QString javaVersion) {
@@ -111,36 +111,36 @@ void SettingsJavaWidget::downloadRecommendedJava(QString javaVersion) {
 }
 
 void SettingsJavaWidget::JavaInstallProgressUpdate() {
-    bc_download_progress progress = bc_network_progress;
+    // bc_download_progress progress = bc_network_progress;
+    //
+    // QString progressString(progress.filename);
+    // progressString = progressString.split('/').last();
+    //
+    // if (progress.totalToDownload > 0) {
+    //     _progressBar->setRange(0, progress.totalToDownload);
+    //     _progressBar->setValue(progress.nowDownloaded);
+    //
+    //     if (progress.totalToDownload == progress.nowDownloaded) {
+    //         _progressBar->setFormat(bc_translate("settings_java_extracting"));
+    //         return;
+    //     }
+    //
+    //     progressString +=
+    //         " - " + QString::number(progress.nowDownloadedMb, 'f', 2) + "MB";
+    //     progressString +=
+    //         " / " + QString::number(progress.totalToDownloadMb, 'f', 2) + "MB";
+    // } else if (progress.nowDownloaded > 0) {
+    //     _progressBar->setRange(0, 100);
+    //     _progressBar->setValue(100);
+    //
+    //     progressString +=
+    //         " - " + QString::number(progress.nowDownloadedMb, 'f', 2) + "MB";
+    // }
 
-    QString progressString(progress.filename);
-    progressString = progressString.split('/').last();
+    // QString filename(progress.filename);
+    // filename = bc_translate("downloading_undefined") + " " + progressString;
 
-    if (progress.totalToDownload > 0) {
-        _progressBar->setRange(0, progress.totalToDownload);
-        _progressBar->setValue(progress.nowDownloaded);
-
-        if (progress.totalToDownload == progress.nowDownloaded) {
-            _progressBar->setFormat(bc_translate("settings_java_extracting"));
-            return;
-        }
-
-        progressString +=
-            " - " + QString::number(progress.nowDownloadedMb, 'f', 2) + "MB";
-        progressString +=
-            " / " + QString::number(progress.totalToDownloadMb, 'f', 2) + "MB";
-    } else if (progress.nowDownloaded > 0) {
-        _progressBar->setRange(0, 100);
-        _progressBar->setValue(100);
-
-        progressString +=
-            " - " + QString::number(progress.nowDownloadedMb, 'f', 2) + "MB";
-    }
-
-    QString filename(progress.filename);
-    filename = bc_translate("downloading_undefined") + " " + progressString;
-
-    _progressBar->setFormat(filename);
+    // _progressBar->setFormat(filename);
 }
 
 void SettingsJavaWidget::onJavaInstallClicked() {

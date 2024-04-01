@@ -4,8 +4,6 @@
 #include <QWidget>
 #include <QtConcurrent>
 
-#include "../../core/JavaInstallations.h"
-
 class QGridLayout;
 class QPushButton;
 class QComboBox;

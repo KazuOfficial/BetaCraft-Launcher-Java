@@ -3,11 +3,14 @@
 #include "Betacraft.h"
 #include "FileSystem.h"
 #include "JsonExtension.h"
-#include "Network.h"
+#include "cpr/api.h"
+#include "cpr/cprtypes.h"
+#include "cpr/response.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <cpr/cpr.h>
 
 #ifdef __linux__
 #include <pwd.h>
@@ -72,7 +75,9 @@ bc_assetindex *bc_assetindex_load(bc_version_assetIndexData *data) {
     if (betacraft_online &&
         (!bc_file_exists(jsonLoc) || bc_file_size(jsonLoc) != data->size)) {
 
-        assetsData = bc_network_get(data->url, NULL);
+        cpr::Response response = cpr::Get(cpr::Url{data->url});
+        assetsData = (char*)malloc(sizeof(char) * strlen(response.text.c_str()));
+        strcpy(assetsData, response.text.c_str());
         bc_file_create(jsonLoc, assetsData);
     } else {
         json = json_object_from_file(jsonLoc);

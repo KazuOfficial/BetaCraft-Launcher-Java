@@ -17,7 +17,6 @@
 #include <unistd.h>
 #endif
 
-#include "../core/Account.h"
 #include "../core/Betacraft.h"
 #include "../core/FileSystem.h"
 #include "../core/JavaInstallations.h"
@@ -94,7 +93,7 @@ int main(int argc, char *argv[]) {
     copyLanguageFiles();
     copyJavaRepo();
     bc_file_init();
-    betacraft_online = bc_network_status();
+    betacraft_online = 1;
     bc_jinst_system_check();
     bc_translate_init();
 

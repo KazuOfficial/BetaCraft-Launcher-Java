@@ -1,6 +1,4 @@
 #include "StringUtils.h"
-#include "Betacraft.h"
-#include "Logger.h"
 
 #include <assert.h>
 #include <stddef.h>

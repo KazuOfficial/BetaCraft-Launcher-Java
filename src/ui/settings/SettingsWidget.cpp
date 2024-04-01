@@ -3,8 +3,6 @@
 #include "../Betacraft.h"
 #include <QtWidgets>
 
-#include "../../core/Betacraft.h"
-
 SettingsWidget::SettingsWidget(QWidget *parent) : QWidget{parent} {
     _layout = new QGridLayout(this);
     _sidebar = new QListWidget(this);

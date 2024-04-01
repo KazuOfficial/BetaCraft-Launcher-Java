@@ -2,7 +2,6 @@
 
 #include "Betacraft.h"
 #include "Logger.h"
-#include "StringUtils.h"
 
 #include <archive.h>
 #include <archive_entry.h>

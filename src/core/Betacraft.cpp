@@ -1,8 +1,11 @@
 #include "Betacraft.h"
 #include "JsonExtension.h"
+#include "cpr/cprtypes.h"
+#include <cpr/cpr.h>
 
 #include <stdio.h>
 #include <string.h>
+#include <string>
 
 int betacraft_online = 0;
 char application_support_path[PATH_MAX] = "";
@@ -12,15 +15,15 @@ char application_support_path[PATH_MAX] = "";
 #define BC_AVATAR_ENDPOINT_SIZE 256
 
 int bc_server_list(bc_server_array *server_list) {
-    char *response = bc_network_get(API_SERVER_LIST, NULL);
-    json_object *json = json_tokener_parse(response);
-    json_object *tmp = NULL;
+    cpr::Response response = cpr::Get(cpr::Url{API_SERVER_LIST});
 
-    if (response == NULL) {
+    if (response.status_code != 200) {
         return 0;
     }
 
-    free(response);
+    json_object *json = json_tokener_parse(response.text.c_str());
+    json_object *tmp = NULL;
+
     server_list->len = json_object_array_length(json);
 
     for (int i = 0; i < server_list->len; i++) {
@@ -68,20 +71,20 @@ int bc_server_list(bc_server_array *server_list) {
     return 1;
 }
 
-bc_memory bc_avatar_get(const char *uuid) {
+std::string bc_avatar_get(const char *uuid) {
     char endpoint[BC_AVATAR_ENDPOINT_SIZE];
     snprintf(endpoint, sizeof(endpoint), "%s%s?overlay", CRAFATAR_ENDPOINT,
              uuid);
 
-    return bc_network_get_chunk(endpoint);
+    cpr::Response response = cpr::Get(cpr::Url{endpoint});
+    return response.text;
 }
 
 int bc_update_check(char *updateVersion) {
-    char *response = bc_network_get("https://api.github.com/repos/betacraftuk/"
-                                    "betacraft-launcher/releases?per_page=1",
-                                    "User-Agent: Betacraft");
-    json_object *json = json_tokener_parse(response);
-    free(response);
+    cpr::Response response = cpr::Get(cpr::Url{"https://api.github.com/repos/betacraftuk/"
+                                    "betacraft-launcher/releases?per_page=1"},
+                                      cpr::Header{{ "User-Agent", "Betacraft" }});
+    json_object *json = json_tokener_parse(response.text.c_str());
 
     json_object *latestRelease = json_object_array_get_idx(json, 0);
 
