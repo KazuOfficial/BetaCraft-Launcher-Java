@@ -48,10 +48,11 @@ endif()
 add_compile_definitions(API_MICROSOFT_CLIENT_ID="${API_MICROSOFT_CLIENT_ID}")
 add_compile_definitions(DISCORD_CLIENT_ID=${DISCORD_CLIENT_ID})
 
-enable_testing()
+include(CTest)
 
 add_subdirectory(lib/json-c)
 add_subdirectory(lib/cpr)
 add_subdirectory(lib/libarchive)
+add_subdirectory(lib/gtest)
 
 add_subdirectory(src)
