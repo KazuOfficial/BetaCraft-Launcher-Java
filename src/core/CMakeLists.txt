@@ -12,7 +12,7 @@ elseif (APPLE)
     set(CMAKE_APPLE_SILICON_PROCESSOR "arm64")
 
     if(CMAKE_APPLE_SILICON_PROCESSOR STREQUAL "arm64")
-        target_link_libraries(Core PUBLIC ${CMAKE_SOURCE_DIR}/lib/discord_game_sdk/x86_64/discord_game_sdk.dylib)
+        target_link_libraries(Core PUBLIC ${CMAKE_SOURCE_DIR}/lib/discord_game_sdk/aarch64/discord_game_sdk.dylib)
     elseif(CMAKE_APPLE_SILICON_PROCESSOR STREQUAL "x86_64")
         target_link_libraries(Core PUBLIC ${CMAKE_SOURCE_DIR}/lib/discord_game_sdk/x86_64/discord_game_sdk.dylib)
     endif()
