@@ -130,27 +130,47 @@ QString AboutWidget::getCreditsHtml() {
     stream << "<p>Kazu &lt;<a "
               "href='https://github.com/KazuOfficial'>https://github.com/"
               "KazuOfficial</a>&gt;</p>\n";
+    stream << "<p>notdevcody &lt;<a "
+              "href='https://github.com/notdevcody'>https://github.com/"
+              "notdevcody</a>&gt;</p>\n";
     stream << "<h3>Translators</h3>\n";
-    stream << "<p>TheClashFruit &lt;<a "
-              "href='https://github.com/TheClashFruit'>https://github.com/"
-              "TheClashFruit</a>&gt;</p>\n";
-    stream << "<p>Edvardvs &lt;<a "
+    stream << "<p>Brazilian Portugese — Edvardvs &lt;<a "
               "href='https://github.com/Edvardvs'>https://github.com/Edvardvs</"
               "a>&gt;</p>\n";
-    stream << "<p>xitieshiz2 &lt;<a "
-              "href='https://github.com/xitieshiz2'>https://github.com/"
-              "xitieshiz2</a>&gt;</p>\n";
-    stream << "<p>m-burani &lt;<a "
-              "href='https://github.com/m-burani'>https://github.com/m-burani</"
+    stream << "<p>Estonian — Zormein &lt;<a "
+              "href='https://github.com/Zormein'>https://github.com/Zormein</"
               "a>&gt;</p>\n";
-    stream << "<p>Don-Leandro &lt;<a "
+    stream << "<p>German — Don-Leandro &lt;<a "
               "href='https://github.com/Don-Leandro'>https://github.com/"
               "Don-Leandro</a>&gt;</p>\n";
-    stream << "<p>TheEntropyShard &lt;<a "
+    stream << "<p>Hungarian — TheClashFruit &lt;<a "
+              "href='https://github.com/TheClashFruit'>https://github.com/"
+              "TheClashFruit</a>&gt;</p>\n";
+    stream << "<p>Italian — m-burani &lt;<a "
+              "href='https://github.com/m-burani'>https://github.com/m-burani</"
+              "a>&gt;</p>\n";
+    stream << "<p>Kashubian, Kashubian (Zrzeszinka) — kaszebeman</p>\n";
+    stream << "<p>Kashubian, Kashubian (Zrzeszinka) — Kaszëbskô Domôcëzna</p>\n";
+    stream << "<p>Lithuanian — AshUosis &lt;<a "
+              "href='https://github.com/AshUosis'>https://github.com/AshUosis</"
+              "a>&gt;</p>\n";
+    stream << "<p>Russian — TheEntropyShard &lt;<a "
               "href='https://github.com/TheEntropyShard'>https://github.com/"
               "TheEntropyShard</a>&gt;</p>\n";
-    stream << "<p>Zormein &lt;<a "
-              "href='https://github.com/Zormein'>https://github.com/Zormein</"
+    stream << "<p>Simplified Chinese, Traditional Chinese — xitieshiz2 &lt;<a "
+              "href='https://github.com/xitieshiz2'>https://github.com/"
+              "xitieshiz2</a>&gt;</p>\n";
+    stream << "<p>Spanish — IOrbitSaturn &lt;<a "
+              "href='https://github.com/IOrbitSaturn'>https://github.com/IOrbitSaturn</"
+              "a>&gt;</p>\n";
+    stream << "<p>Spanish — Nanrech &lt;<a "
+              "href='https://github.com/Nanrech'>https://github.com/Nanrech</"
+              "a>&gt;</p>\n";
+    stream << "<p>Toki Pona — Waterrail &lt;<a "
+              "href='https://github.com/Waterrail'>https://github.com/Waterrail</"
+              "a>&gt;</p>\n";
+    stream << "<p>Ukrainian — vil4ckc &lt;<a "
+              "href='https://github.com/vil4ckc'>https://github.com/vil4ckc</"
               "a>&gt;</p>\n";
 
     stream << "</center>\n";
