@@ -7,7 +7,7 @@ Betacraft aims to provide easy access to old Minecraft versions and improve the 
 ## System Requirements
 
 * OS
-    * Windows (10 or higher).
+    * Windows (10 build 1809 or higher).
     * Linux.
     * macOS (11 or higher).
 
