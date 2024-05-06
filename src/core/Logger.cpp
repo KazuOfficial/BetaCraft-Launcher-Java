@@ -15,8 +15,8 @@ void bc_log(const char *format, ...) {
     FILE *file = NULL;
     file = fopen("betacraft.log", "a");
 
-    va_list args = NULL;
-    va_list args2 = NULL;
+    va_list args = {};
+    va_list args2 = {};
 
     va_start(args, format);
     va_copy(args2, args);

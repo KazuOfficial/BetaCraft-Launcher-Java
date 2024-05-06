@@ -187,7 +187,7 @@ char *bc_file_minecraft_directory() {
     struct passwd *pw = getpwuid(getuid());
 
     int size = strlen(pw->pw_dir) + strlen("/.minecraft/") + 1;
-    mcdir = malloc(size);
+    mcdir = (char*)malloc(size);
     snprintf(mcdir, size, "%s/.minecraft/", pw->pw_dir);
 #elif _WIN32
     char *env = getenv("APPDATA");
