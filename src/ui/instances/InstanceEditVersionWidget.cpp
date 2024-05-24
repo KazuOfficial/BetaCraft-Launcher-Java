@@ -56,6 +56,7 @@ InstanceEditVersionWidget::InstanceEditVersionWidget(QWidget *parent)
                 bc_versionlist_instance =
                     (bc_versionlist *)_versionListWatcher.future().result();
                 populateVersionList();
+                setSelectedInstance();
                 _instanceVersionListFetchPending = false;
             });
 }
@@ -167,8 +168,25 @@ void InstanceEditVersionWidget::setSelectedInstance() {
 }
 
 void InstanceEditVersionWidget::setInstance(bc_instance instance) {
+    if (_version != nullptr) {
+        resetVersionBackground(_version);
+    }
+
     _version = QString(instance.version);
     setSelectedInstance();
+}
+
+void InstanceEditVersionWidget::resetVersionBackground(QString version) {
+    QStandardItemModel *model =
+        static_cast<QStandardItemModel *>(_versionsTreeView->model());
+
+    for (int i = 0; i < model->rowCount(); i++) {
+        if (model->item(i)->text().compare(version) == 0) {
+            model->item(i, 0)->setBackground(QBrush());
+            model->item(i, 1)->setBackground(QBrush());
+            break;
+        }
+    }
 }
 
 QString InstanceEditVersionWidget::getSettings() {

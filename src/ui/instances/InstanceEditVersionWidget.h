@@ -21,6 +21,7 @@ class InstanceEditVersionWidget : public QWidget {
     explicit InstanceEditVersionWidget(QWidget *parent = nullptr);
     QString getSettings();
     void setInstance(bc_instance instance);
+    void resetVersionBackground(QString version);
     void clean();
     void versionListInit();
 
