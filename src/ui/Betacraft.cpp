@@ -39,11 +39,15 @@ void bc_translate_init() {
         languagePath = fallbackLanguagePath;
     }
 
-    std::ifstream langstream(bc_file_absolute_path(languagePath.c_str()));
+    const char* languageAbsPath = bc_file_absolute_path(languagePath.c_str());
+    std::ifstream langstream(languageAbsPath);
     languageJson = json::parse(langstream);
 
-    std::ifstream fallbacklangstream(bc_file_absolute_path(fallbackLanguagePath.c_str()));
+    const char* fallbackLanguageAbsPath = bc_file_absolute_path(fallbackLanguagePath.c_str());
+    std::ifstream fallbacklangstream(fallbackLanguageAbsPath);
     fallbackLanguageJson = json::parse(fallbacklangstream);
 
-    free(settings);
+    delete languageAbsPath;
+    delete fallbackLanguageAbsPath;
+    delete settings;
 }
