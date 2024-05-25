@@ -8,5 +8,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 enable_testing()
 
 add_subdirectory(externals/googletest)
+add_subdirectory(externals/cpr)
 
 add_subdirectory(src)
