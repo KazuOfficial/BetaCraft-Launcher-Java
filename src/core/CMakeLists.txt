@@ -22,10 +22,9 @@ elseif (UNIX AND NOT APPLE) # Linux
     target_link_libraries(Core PUBLIC discordgamesdk)
 endif()
 
-target_link_directories(Core PUBLIC ${CMAKE_SOURCE_DIR}/lib/nlohmann/)
-
 target_link_libraries(Core PUBLIC
     cpr::cpr
+    nlohmann_json::nlohmann_json
     json-c
     archive
 )

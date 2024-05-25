@@ -49,6 +49,10 @@ add_compile_definitions(API_MICROSOFT_CLIENT_ID="${API_MICROSOFT_CLIENT_ID}")
 add_compile_definitions(DISCORD_CLIENT_ID=${DISCORD_CLIENT_ID})
 
 include(CTest)
+include(FetchContent)
+
+FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz)
+FetchContent_MakeAvailable(json)
 
 add_subdirectory(lib/json-c)
 add_subdirectory(lib/cpr)

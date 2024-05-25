@@ -1,29 +1,49 @@
 #include "Betacraft.h"
 
+#include <fstream>
+#include <nlohmann/json.hpp>
+
 #include "../core/FileSystem.h"
-#include "../core/JsonExtension.h"
 #include "../core/Settings.h"
 
-char _languagePath[PATH_MAX];
+using json = nlohmann::json;
+
+json fallbackLanguageJson;
+json languageJson;
 
 QString bc_translate(const char *key) {
-    json_object *json = json_object_from_file(_languagePath);
 
-    QString ret = QString(jext_get_string_dummy(json, key));
+    if (languageJson.contains(key)) {
+        return QString::fromStdString(languageJson[key]);
+    }
 
-    json_object_put(json);
+    if (fallbackLanguageJson.contains(key)) {
+        return QString::fromStdString(fallbackLanguageJson[key]);
+    }
 
-    return ret;
+    return QString("");
 }
 
 void bc_translate_init() {
+
     bc_settings *settings = bc_settings_get();
 
-    snprintf(_languagePath, sizeof(_languagePath), "lang/%s.json",
-             settings->language);
-    char *absoluteLanguagePath = bc_file_absolute_path(_languagePath);
-    snprintf(_languagePath, sizeof(_languagePath), "%s", absoluteLanguagePath);
+    std::string fallbackLanguagePath = "lang/English.json";
 
-    free(absoluteLanguagePath);
+    std::string languagePath = "lang/";
+    languagePath += settings->language;
+    languagePath += ".json";
+
+    if (!bc_file_exists(languagePath.c_str())) {
+        // fallback language - English
+        languagePath = fallbackLanguagePath;
+    }
+
+    std::ifstream langstream(bc_file_absolute_path(languagePath.c_str()));
+    languageJson = json::parse(langstream);
+
+    std::ifstream fallbacklangstream(bc_file_absolute_path(fallbackLanguagePath.c_str()));
+    fallbackLanguageJson = json::parse(fallbacklangstream);
+
     free(settings);
 }
