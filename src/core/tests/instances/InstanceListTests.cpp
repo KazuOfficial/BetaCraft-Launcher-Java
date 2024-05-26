@@ -12,14 +12,15 @@ protected:
     }
 };
 
-TEST_F(InstanceListTest, InitCreatesDefaultInstancesFile) {
+TEST_F(InstanceListTest, Initialize_WhenCalled_CreatesDefaultInstancesFile) {
     std::ifstream f(core::constants::INSTANCE_LIST_FILE_NAME);
 
     ASSERT_TRUE(f.good());
 }
 
-TEST_F(InstanceListTest, GetStandalone) {
+TEST_F(InstanceListTest, GetStandalone_WhenCalled_FetchesInstancesFromTheInstancesFile) {
 }
 
-TEST_F(InstanceListTest, GetGrouped) {
+TEST_F(InstanceListTest, GetGrouped_WhenCalled_FetchesGroupsFromTheInstancesFile) {
+
 }
