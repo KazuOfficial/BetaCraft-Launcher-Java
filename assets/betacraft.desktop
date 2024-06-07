@@ -1,7 +1,0 @@
-[Desktop Entry]
-Version=1.0
-Type=Application
-Terminal=false
-Exec=/opt/betacraft/bin/Betacraft %U
-Name=Betacraft
-Icon=betacraft
