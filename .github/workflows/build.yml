@@ -18,6 +18,11 @@ jobs:
       with:
         submodules: recursive
 
+    - name: Install packages
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y uuid-dev
+
     - name: Configure CMake
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
