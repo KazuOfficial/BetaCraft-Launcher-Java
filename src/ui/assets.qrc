@@ -20,11 +20,12 @@
         <file alias="Polish (alternative)">../../assets/lang/Polish (alternative).json</file>
         <file alias="Polish (cyrillic)">../../assets/lang/Polish (cyrillic).json</file>
         <file alias="Russian">../../assets/lang/Russian.json</file>
-        <file alias="Simplified Chinese">../../assets/lang/Simplified Chinese.json</file>
+        <file alias="简体中文/Simplified Chinese">../../assets/lang/Simplified Chinese.json</file>
         <file alias="Spanish">../../assets/lang/Spanish.json</file>
         <file alias="Toki Pona">../../assets/lang/Toki Pona.json</file>
-        <file alias="Traditional Chinese">../../assets/lang/Traditional Chinese.json</file>
+        <file alias="正體中文/Traditional Chinese">../../assets/lang/Traditional Chinese.json</file>
         <file alias="Ukrainian">../../assets/lang/Ukrainian.json</file>
+        <file alias="日本語/Japanese">../../assets/lang/Japanese.json</file>
     </qresource>
     <qresource prefix="/">
         <file alias="COPYING.md">../../COPYING.md</file>
