@@ -174,7 +174,11 @@ public class WebsitePanel extends JPanel {
 				new Thread() {
 					public void run() {
 						try {
-							HttpURLConnection con = (HttpURLConnection) new URL("http://files.betacraft.uk/launcher/changelog/" + Lang.encodeForURL(BC.SETTINGS.getProperty("language")) + ".html").openConnection();
+							if (Lang.encodeForURL(BC.SETTINGS.getProperty("language")) == "中文") {
+								HttpURLConnection con = (HttpURLConnection) new URL("http://files.betacraft.uk/launcher/changelog/Chinese.html").openConnection();
+							} else {
+								HttpURLConnection con = (HttpURLConnection) new URL("http://files.betacraft.uk/launcher/changelog/" + Lang.encodeForURL(BC.SETTINGS.getProperty("language")) + ".html").openConnection();
+							}
 							con.setDoInput(true);
 							con.setDoOutput(false);
 							con.setConnectTimeout(5000);
