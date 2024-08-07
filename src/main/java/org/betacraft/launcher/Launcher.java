@@ -47,7 +47,7 @@ import uk.betacraft.json.lib.MouseFixMacOSJson;
 
 /** Main class */
 public class Launcher {
-	public static String VERSION = "1.09_17-rc2"; // TODO Always update this
+	public static String VERSION = "1.09_17-rc3"; // TODO Always update this
 
 	public static Instance currentInstance;
 	public static boolean forceUpdate = false;

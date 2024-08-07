@@ -537,18 +537,30 @@ public class Util {
 	}
 	
 	public static String getExpectedJavaLocation() {
-		String expectedPath;
+		String[] expectedPaths;
 
 		if (OS.isMac())
-			expectedPath = "/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java";
+			expectedPaths = new String[] {
+					"/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java",
+					"/Library/Java/JavaVirtualMachines/jdk-1.8.jdk/Contents/Home/bin/java",
+					"/Library/Java/JavaVirtualMachines/openjdk-8.jdk/Contents/Home/bin/java"
+		};
 		else if (OS.isWindows())
-			expectedPath = "C:/Program Files/Java/jre-1.8/bin/java.exe";
+			expectedPaths = new String[] {
+					"C:/Program Files/Java/latest/jre-1.8/bin/java.exe",
+					"C:/Program Files/Java/jre-1.8/bin/java.exe"
+			};
 		else // TODO: this does not ensure this is Java 8. maybe we should make this more specific?
-			expectedPath = "/usr/bin/java";
+			expectedPaths = new String[] {
+					"/usr/bin/java"
+			};
 
-		File expectedFile = new File(expectedPath);
-		if (expectedFile.exists() && expectedFile.isFile())
-			return expectedFile.getAbsolutePath();
+		for (String expectedPath : expectedPaths) {
+			File expectedFile = new File(expectedPath);
+
+			if (expectedFile.exists() && expectedFile.isFile())
+				return expectedFile.getAbsolutePath();
+		}
 
 		return null;
 	}

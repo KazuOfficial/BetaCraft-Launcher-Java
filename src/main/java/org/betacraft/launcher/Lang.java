@@ -545,7 +545,7 @@ public class Lang extends JFrame implements LanguageElement {
 	public static String WINDOW_SELECT_VERSION = "Select version";
 	public static String WINDOW_LANGUAGE = "Language";
 	public static String WINDOW_OPTIONS = "Edit instance";
-	public static String WINDOW_TITLE = "BetaCraft Launcher JE v" + Launcher.VERSION;
+	public static String WINDOW_TITLE = "BetaCraft Launcher v" + Launcher.VERSION;
 	public static String WINDOW_DOWNLOADING = "Downloading ...";
 	public static String WINDOW_DOWNLOADING_RESOURCE = "Downloading: %s";
 	public static String PACKING_MOD = "Packing mod ...";
@@ -555,10 +555,10 @@ public class Lang extends JFrame implements LanguageElement {
 	public static String LANG = "Select language";
 
 	public static String OPTIONS_PROXY = "Use skin & sound proxy";
-	public static String OPTIONS_UPDATE_HEADER = "Update check";
+	public static String OPTIONS_UPDATE_HEADER = "Update available";
 	public static String OPTIONS_KEEP_OPEN = "Keep the launcher open";
 	public static String OPTIONS_RPC = "Discord RPC";
-	public static String OPTIONS_LAUNCH_ARGS = "Launch arguments:";
+	public static String OPTIONS_LAUNCH_ARGS = "JVM arguments:";
 	public static String OPTIONS_OK = "OK";
 	public static String OPTIONS_WIDTH = "width:";
 	public static String OPTIONS_HEIGHT = "height:";
@@ -566,7 +566,7 @@ public class Lang extends JFrame implements LanguageElement {
 
 	public static String SORT_FROM_OLDEST = "Sort: from oldest";
 	public static String SORT_FROM_NEWEST = "Sort: from newest";
-	public static String VERSION_LIST_TITLE = "Version list";
+	public static String VERSION_LIST_TITLE = "Select version";
 
 	public static String ADDON_LIST_TITLE = "Addons list";
 	public static String ADDON_NO_DESC = "No description.";
@@ -623,20 +623,20 @@ public class Lang extends JFrame implements LanguageElement {
 
 	public static String TAB_CHANGELOG = "Changelog";
 	public static String TAB_INSTANCES = "Instances";
-	public static String TAB_SERVERS = "Servers";
+	public static String TAB_SERVERS = "Server list";
 
 	public static String VERSION_CUSTOM = " [Custom]";
 
 	public static String BROWSER_TITLE = "Webpage viewer";
 
-	public static String TAB_SRV_LOADING = "Loading servers list...";
-	public static String TAB_SRV_FAILED = "Failed to list Minecraft servers!";
+	public static String TAB_SRV_LOADING = "Loading server list...";
+	public static String TAB_SRV_FAILED = "Failed to list servers!";
 	public static String TAB_CL_LOADING = "Loading update news...";
 	public static String TAB_CL_FAILED = "Failed to load update news!";
 
 	public static String FORCE_UPDATE = "Force update";
-	public static String CONSOLE_OUTPUT_FOR = "Console output for \"%s\"";
-	public static String CONSOLE_OUTPUT = "Console output";
+	public static String CONSOLE_OUTPUT_FOR = "Game log for \"%s\"";
+	public static String CONSOLE_OUTPUT = "Game log";
 
 	public static String WRAP_USER = "User: %s";
 	public static String WRAP_VERSION = "Version: %s";

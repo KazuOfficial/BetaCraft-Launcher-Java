@@ -137,7 +137,10 @@ public class AwaitingMSALogin extends JFrame {
 						if (ctr.error != null) {
 							System.out.println("MSA Error: " + ctr.error);
 							System.out.println("Err msg: " + ctr.error_description);
-							System.out.println("Err codes: " + ctr.error_codes);
+							System.out.println("Err codes: ");
+							for (int code : ctr.error_codes) {
+								System.out.print(code + " ");
+							}
 						} else {
 							Credentials cred = new Credentials();
 							cred.refresh_token = ctr.refresh_token;
@@ -147,9 +150,9 @@ public class AwaitingMSALogin extends JFrame {
 							Window.continueMSA(msa);
 							break;
 						}
-					} else {
-						Thread.sleep(interval * 1000); // sleep
 					}
+
+					Thread.sleep(interval * 1000); // sleep
 				}
 
 				dispose();
