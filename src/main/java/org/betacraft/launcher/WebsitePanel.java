@@ -30,8 +30,8 @@ public class WebsitePanel extends JPanel {
 				try {
 					Util.openURL(hyperlinkEvent.getURL().toURI());
 				}
-				catch (Exception ex) {
-					ex.printStackTrace();
+				catch (Throwable t) {
+					t.printStackTrace();
 				}
 			}
 		}
@@ -71,8 +71,8 @@ public class WebsitePanel extends JPanel {
 					try {
 						Util.openURL(hyperlinkEvent.getURL().toURI());
 					}
-					catch (Exception ex) {
-						ex.printStackTrace();
+					catch (Throwable t) {
+						t.printStackTrace();
 					}
 				}
 			}

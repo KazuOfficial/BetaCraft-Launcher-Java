@@ -661,29 +661,24 @@ public class Util {
 			return openURL(new URL(url).toURI());
 		} catch (Throwable t) {
 			t.printStackTrace();
+			
+			new SimpleWebAddressFrame(url);
 			return false;
 		}
 	}
 
-	public static boolean openURL(final URI uri) {
-		if (getCurrentMajorJavaVersion() <= 5) {
-			// Desktop api is only available in Java 6+
-			new SimpleWebAddressFrame(uri.toString());
-			return false;
-		} else {
-			try {
-				final Object invoke = Class.forName("java.awt.Desktop").getMethod("getDesktop", (Class<?>[])new Class[0]).invoke(null, new Object[0]);
-				invoke.getClass().getMethod("browse", URI.class).invoke(invoke, uri);
-				return true;
-			} catch (Throwable t) {
-				System.out.println("Failed to open link in a web browser: " + uri.toString());
-				t.printStackTrace();
+	public static boolean openURL(final URI uri) throws Exception {
+		if (getCurrentMajorJavaVersion() < 6)
+			throw new Exception("Desktop API doesn't exist before Java 6");
 
-				// open it the other way when this fails
-				new SimpleWebAddressFrame(uri.toString());
-			}
+		try {
+			final Object invoke = Class.forName("java.awt.Desktop").getMethod("getDesktop", (Class<?>[])new Class[0]).invoke(null, new Object[0]);
+			invoke.getClass().getMethod("browse", URI.class).invoke(invoke, uri);
+			return true;
+		} catch (Throwable t) {
+			System.out.println("Failed to open link in a web browser: " + uri.toString());
+			throw t;
 		}
-		return false;
 	}
 
 	public static void copy(InputStream in, File file) {
