@@ -239,6 +239,9 @@ public class Lang extends JFrame implements LanguageElement {
 		if (langentries.hasProperty("download_fail"))
 			ERR_DL_FAIL = langentries.getProperty("download_fail");
 
+		if (langentries.hasProperty("no_selection"))
+			ERR_NO_SELECTION = langentries.getProperty("no_selection");
+
 
 		if (langentries.hasProperty("update_check"))
 			OPTIONS_UPDATE_HEADER = langentries.getProperty("update_check");
@@ -570,7 +573,7 @@ public class Lang extends JFrame implements LanguageElement {
 
 	public static String ADDON_LIST_TITLE = "Addons list";
 	public static String ADDON_NO_DESC = "No description.";
-	public static String ADDON_SHOW_INFO = "Show info";
+	public static String ADDON_SHOW_INFO = "About";
 
 	public static String LOGGING_IN = "Logging in...";
 	public static String LOGIN_TITLE = "Log in";
@@ -647,6 +650,7 @@ public class Lang extends JFrame implements LanguageElement {
 	public static String UNEXPECTED_ERROR = "Unexpected error: %s";
 	public static String ERR_NO_CONNECTION = "No stable internet connection.";
 	public static String ERR_DL_FAIL = "Download failed.";
+	public static String ERR_NO_SELECTION = "You must select something first!";
 
 	public static String YES = "Yes";
 	public static String NO = "No";

@@ -95,34 +95,43 @@ public class SelectAddons extends JFrame implements ActionListener, LanguageElem
 		constr1.weightx = 0.0;
 		constr1.insets = new Insets(5, 5, 0, 5);
 
-		for (Addon item : Addon.addons.values()) {
-			JCheckBox checkbox = new JCheckBox();
+		for (final Addon item : Addon.addons.values()) {
+			final JCheckBox checkbox = new JCheckBox();
+
 			for (String addon : Launcher.currentInstance.addons) {
-				if (addon.equals(item.name)) checkbox.setSelected(true);
+				if (addon.equals(item.name))
+					checkbox.setSelected(true);
 			}
 
 			JLabel label = new JLabel(item.name);
 			label.addMouseListener(new MouseListener() {
 
-				public void mousePressed(MouseEvent e) {
-					String name = ((JLabel)e.getSource()).getText();
-					Addon a = Addon.addons.get(name);
-					new BrowserWindow(a.getInfo());
-				}
-
 				public void mouseClicked(MouseEvent e) {}
-				public void mouseReleased(MouseEvent e) {}
 				public void mouseEntered(MouseEvent e) {}
 				public void mouseExited(MouseEvent e) {}
+				public void mousePressed(MouseEvent e) {}
+				public void mouseReleased(MouseEvent e) {
+					checkbox.setSelected(!checkbox.isSelected());
+				}
+			});
 
+			JButton aboutButton = new JButton(Lang.ADDON_SHOW_INFO);
+			aboutButton.addActionListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent arg0) {
+					Addon a = Addon.addons.get(item.name);
+					new BrowserWindow(a.getInfo());
+				}
 			});
 
 			listpanel.add(checkbox, constr1);
 			constr1.gridx = 1;
 			constr1.weightx = 1.0;
 			listpanel.add(label, constr1);
-			constr1.gridx = 0;
+			constr1.gridx = 2;
 			constr1.weightx = 0.0;
+			listpanel.add(aboutButton, constr1);
+			constr1.gridx = 0;
 
 			checkboxes.put(checkbox, item.name);
 			constr1.gridy++;

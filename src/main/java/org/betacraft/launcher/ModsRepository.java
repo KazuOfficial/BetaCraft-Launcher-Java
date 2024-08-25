@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -163,7 +164,11 @@ public class ModsRepository extends JFrame implements ActionListener, LanguageEl
 
 	public void saveVersions() {
 		TreePath treepath = tree.getSelectionPath();
-		if (treepath == null) return;
+		if (treepath == null) {
+			JOptionPane.showMessageDialog(this, Lang.ERR_NO_SELECTION, "", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) treepath.getLastPathComponent();
 
 		Object o = node.getUserObject();
@@ -191,15 +196,32 @@ public class ModsRepository extends JFrame implements ActionListener, LanguageEl
 			Window.modsRepo = null;
 		} else if (e.getSource() == more_button) {
 			TreePath treepath = tree.getSelectionPath();
-			if (treepath == null) return;
+			if (treepath == null) {
+				JOptionPane.showMessageDialog(this, Lang.ERR_NO_SELECTION, "", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) treepath.getLastPathComponent();
 
 			Object o = node.getUserObject();
 
-			if (o instanceof ModObject) {
+			String link = null;
+
+			if (o instanceof String) {
+				for (ModCategory modCat : mods) {
+					if (modCat.mod_category.equals((String) o) && modCat.mods.length >= 1) {
+						link = modCat.mods[0].website;
+						break;
+					}
+				}
+			} else if (o instanceof ModObject) {
 				ModObject mod = (ModObject) o;
 
-				Util.openURL(mod.website);
+				link = mod.website;
+			}
+
+			if (link != null && !link.isEmpty()) {
+				Util.openURL(link);
 			}
 		}
 	}
