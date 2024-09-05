@@ -6,6 +6,7 @@ import uk.betacraft.auth.BlankResponse;
 import uk.betacraft.auth.Request;
 import uk.betacraft.auth.RequestUtil;
 import uk.betacraft.auth.Response;
+import uk.betacraft.util.WebData;
 
 public class JoinServerRequest extends Request {
 
@@ -22,14 +23,8 @@ public class JoinServerRequest extends Request {
 	}
 
 	@Override
-	public Response perform() {
-		String response = RequestUtil.performPOSTRequest(this);
-
-		if (response != null) {
-			return new BlankResponse();
-		} else {
-			return null;
-		}
+	public JoinServerResponse perform() {
+		return new JoinServerResponse(RequestUtil.performRawPOSTRequest(this));
 	}
 
 	public static String sha1(String input) {
@@ -44,6 +39,18 @@ public class JoinServerRequest extends Request {
 		} catch (Throwable t) {
 			t.printStackTrace();
 			return null;
+		}
+	}
+
+	public static class JoinServerResponse extends Response {
+		private WebData data;
+
+		public JoinServerResponse(WebData data) {
+			this.data = data;
+		}
+
+		public WebData getData() {
+			return this.data;
 		}
 	}
 }

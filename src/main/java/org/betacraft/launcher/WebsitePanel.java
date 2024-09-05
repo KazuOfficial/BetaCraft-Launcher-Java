@@ -117,7 +117,7 @@ public class WebsitePanel extends JPanel {
 				new Thread() {
 					public void run() {
 						try {
-							HttpURLConnection con = (HttpURLConnection) new URL("http://betacraft.uk/serverlist").openConnection();
+							HttpURLConnection con = (HttpURLConnection) new URL("http://api.betacraft.uk/v2/legacy_server_list").openConnection();
 							con.setRequestMethod("POST");
 							con.setDoInput(true);
 							con.setDoOutput(true);

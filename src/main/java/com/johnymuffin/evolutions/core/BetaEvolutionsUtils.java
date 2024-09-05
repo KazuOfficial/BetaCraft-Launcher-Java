@@ -258,7 +258,7 @@ public class BetaEvolutionsUtils {
         return null;
     }
 
-    private String getExternalIP() {
+    public String getExternalIP() {
         String ip = getIPFromAmazon();
         if (ip == null) {
             ip = getIPFromWhatIsMyIpAddress();

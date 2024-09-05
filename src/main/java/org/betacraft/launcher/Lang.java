@@ -371,6 +371,9 @@ public class Lang extends JFrame implements LanguageElement {
 		if (langentries.hasProperty("java_ssl_to_microsoft_account"))
 			JAVA_SSL_TO_MICROSOFT_ACCOUNT = langentries.getProperty("java_ssl_to_microsoft_account");
 
+		if (langentries.hasProperty("java_ssl_to_authenticate"))
+			JAVA_SSL_TO_AUTHENTICATE = langentries.getProperty("java_ssl_to_authenticate");
+
 		if (langentries.hasProperty("java_intel_graphics"))
 			JAVA_INTEL_GRAPHICS = langentries.getProperty("java_intel_graphics");
 
@@ -603,6 +606,7 @@ public class Lang extends JFrame implements LanguageElement {
 	public static String JAVA_SSL_NOT_SUPPORTED = "Your Java is too old to connect to the required resource. Update your Java to %s";
 	public static String JAVA_SSL_TO_MICROSOFT_ACCOUNT = "login to your Minecraft account.";
 	public static String JAVA_SSL_TO_DOWNLOAD_RESOURCE = "download the required resource.";
+	public static String JAVA_SSL_TO_AUTHENTICATE = "connect with this server.";
 	public static String JAVA_INTEL_GRAPHICS = "Your machine has Intel HD Graphics. In order for the game to run as intended, you may have to use Java 8u51 for your instance (your current Java: %s)";
 	public static String JAVA_INTEL_GRAPHICS_WIKI = "Learn how to get Java 8u51 here: https://github.com/betacraftuk/betacraft-launcher/wiki/intel";
 

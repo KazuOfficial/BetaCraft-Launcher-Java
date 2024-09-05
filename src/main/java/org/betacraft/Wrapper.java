@@ -20,6 +20,7 @@ import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,8 +40,8 @@ import com.johnymuffin.evolutions.core.BetaEvolutionsUtils.VerificationResults;
 import net.arikia.dev.drpc.DiscordEventHandlers;
 import net.arikia.dev.drpc.DiscordRPC;
 import net.arikia.dev.drpc.DiscordRichPresence;
-import uk.betacraft.auth.CustomRequest;
 import uk.betacraft.auth.jsons.mojang.session.JoinServerRequest;
+import uk.betacraft.util.WebData;
 
 
 public class Wrapper extends Applet implements AppletStub {
@@ -83,7 +84,7 @@ public class Wrapper extends Applet implements AppletStub {
 
 	public int portCompat = 80;
 	public String serverAddress = null;
-	public String mppass = null;
+	public String mppass = "0";
 	public String defaultPort = "25565";
 
 	/** List of addons to be applied to this instance */
@@ -228,38 +229,41 @@ public class Wrapper extends Applet implements AppletStub {
 			}
 		}
 	}
-
-	public void getMPpass(String server) {
-		if (this.uuid == null || this.uuid.equals("-")) {
-			this.mppass = "0";
-			return;
-		}
-
-		boolean getmppass = System.getProperty("betacraft.obtainMPpass", "true").equalsIgnoreCase("true");
+	
+	public void sendJoinServerRequest(String server) {
+		System.out.println("Sending joinServer request...");
+		
+		InetAddress addr;
 		try {
-			String host = server.split(":")[0];
-			InetAddress addr = InetAddress.getByName(host);
-			String numerical = addr.getHostAddress();
-			server = server.replace(host, numerical);
-			System.out.println("Sending joinServer request...");
-
-			new JoinServerRequest(this.session, this.uuid, server).perform();
-			System.out.println("Done!");
-			// Let 15a and 16a servers do their own auth
-			if (getmppass) {
-				System.out.println("Obtaining mppass...");
-				// 
-				this.mppass = new CustomRequest("http://api.betacraft.uk/getmppass.jsp?user=" + this.params.get("username") + "&server=" + server).perform().response;
-				if (this.mppass == null || this.mppass.equals("FAILED") || this.mppass.equals("SERVER NOT FOUND")) {
-					// failed to get mppass :(
-					System.out.println("Failed to get mppass for: " + server);
-					this.mppass = "0";
-				}
-				System.out.println("Done!");
-			}
-		} catch (Throwable t) {
-			t.printStackTrace();
+			addr = InetAddress.getByName(server);
+			
+			if (!addr.isAnyLocalAddress() && !addr.isLoopbackAddress())
+				server = new BetaEvolutionsUtils().getExternalIP();
+			else if (server.equals("localhost"))
+				server = "127.0.0.1";
+			
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
 		}
+
+		WebData data = new JoinServerRequest(this.session, this.uuid, server).perform().getData();
+
+		if (data.getResponseCode() == -2) {
+			JOptionPane.showMessageDialog(null, String.format(Lang.JAVA_SSL_NOT_SUPPORTED, Lang.JAVA_SSL_TO_AUTHENTICATE), "", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		if (data.successful()) {
+			System.out.println("Done!");
+		} else {
+			System.out.println("Failed");
+		}
+	}
+
+	@Deprecated
+	public void getMPpass(String server) {
+		this.mppass = "0";
+
+		sendJoinServerRequest(server.split(":")[0]);
 	}
 
 	/**
@@ -267,22 +271,15 @@ public class Wrapper extends Applet implements AppletStub {
 	 */
 	public void askForServer() {
 		if (this.serverAddress != null) {
-			if (this.mppass.length() < 32) {
-				this.getMPpass(this.serverAddress);
-			}
+			this.sendJoinServerRequest(this.serverAddress.split(":")[0]);
+
 			params.put("mppass", this.mppass);
 		} else {
 			String server = JOptionPane.showInputDialog(this, Lang.WRAP_SERVER, Lang.WRAP_SERVER_TITLE, JOptionPane.DEFAULT_OPTION);
 			String port = this.defaultPort;
 			if (server != null && !server.equals("")) {
 				String IP = server;
-				if (server.startsWith("retrocraft://")) {
-					// retrocraft://<ip>/<port>/<version>/<mppass>
-					String[] splitted = server.split("/");
-					IP = splitted[2];
-					port = splitted[3];
-					this.mppass = splitted[5];
-				} else if (server.startsWith("mc://")) {
+				if (server.startsWith("mc://")) {
 					// mc://<ip>:<port>/<username>/<mppass>
 					String[] splitted = server.split("/");
 					String[] hostport = splitted[2].split(":");
@@ -303,17 +300,14 @@ public class Wrapper extends Applet implements AppletStub {
 					port = params1[1];
 				}
 
-				if (this.mppass.length() < 32) {
-					this.getMPpass(IP + ":" + port);
-				}
+				this.sendJoinServerRequest(IP);
 
 				// <ip>
-				if (!server.equals("")) {
-					System.out.println("Accepted server parameters: " + IP + ":" + port + this.mppass != null ? " + mppass" : "");
-					params.put("server", IP);
-					params.put("port", port);
-					params.put("mppass", this.mppass);
-				}
+
+				System.out.println("Accepted server parameters: " + IP + ":" + port + this.mppass != null ? " + mppass" : "");
+				params.put("server", IP);
+				params.put("port", port);
+				params.put("mppass", this.mppass);
 			}
 		}
 	}
@@ -676,7 +670,7 @@ public class Wrapper extends Applet implements AppletStub {
 				try {
 					for (final Field mcField : mainClass.getDeclaredFields()) {
 						String name = mcField.getType().getName();
-						if (name.contains("mojang")) {
+						if (name.contains("minecraft")) {
 							final Class<?> clazz = classLoader.loadClass(name);
 							mcField.setAccessible(true);
 							Object mc = mcField.get(mainClassInstance);
