@@ -25,6 +25,7 @@ public class Instance {
 	public List<String> addons;
 	public String gameDir;
 	public String javaPath;
+	public boolean intelFix;
 	public boolean isJavaPathNew;
 
 	private Instance(String name, String launchArgs, String version, int width, int height, boolean proxy, boolean keepopen, boolean RPC, List<String> addons, String gameDir) {
@@ -39,6 +40,7 @@ public class Instance {
 		this.version = version;
 		this.gameDir = gameDir;
 		this.console = false;
+		this.intelFix = true;
 		this.javaPath = Launcher.javaRuntime.getAbsolutePath();
 		this.isJavaPathNew = true;
 	}
@@ -86,6 +88,12 @@ public class Instance {
 				instance.keepopen = Boolean.parseBoolean(instancesettings.getProperty("keepopen"));
 				instance.RPC = Boolean.parseBoolean(instancesettings.getProperty("RPC"));
 				instance.console = Boolean.parseBoolean(instancesettings.getProperty("console"));
+				String intelFix = instancesettings.getProperty("intelFix");
+				if (intelFix != null) {
+					instance.intelFix = Boolean.parseBoolean(intelFix);
+				} else {
+					instance.intelFix = true;
+				}
 
 				String jpath = instancesettings.getProperty("javaPath");
 				if (jpath == null || "".equals(jpath)) {
@@ -125,6 +133,7 @@ public class Instance {
 			instancesettings.setProperty("proxy", Boolean.toString(this.proxy));
 			instancesettings.setProperty("keepopen", Boolean.toString(this.keepopen));
 			instancesettings.setProperty("RPC", Boolean.toString(this.RPC));
+			instancesettings.setProperty("intelFix", Boolean.toString(this.intelFix));
 			instancesettings.setProperty("console", Boolean.toString(this.console));
 			instancesettings.setProperty("javaPath", javaPath);
 			instancesettings.setProperty("isJavaPathNew", Boolean.toString(this.isJavaPathNew));
@@ -178,6 +187,7 @@ public class Instance {
 		cloned.version = this.version;
 		cloned.javaPath = this.javaPath;
 		cloned.console = this.console;
+		cloned.intelFix = this.intelFix;
 		cloned.isJavaPathNew = this.isJavaPathNew;
 		return cloned;
 	}

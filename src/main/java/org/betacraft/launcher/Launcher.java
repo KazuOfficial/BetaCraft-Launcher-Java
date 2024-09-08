@@ -569,8 +569,11 @@ public class Launcher {
 				String colon = ":";
 				if (OS.isWindows()) {
 					colon = ";";
-					// Intel graphics -- DO NOT DELETE
-					params.add("-XX:HeapDumpPath=java.exe_minecraft.exe.heapdump");
+
+					// Intel graphics -- DO NOT DELETE (Java 5u7+)
+					if (instance.intelFix) {
+						params.add("-XX:HeapDumpPath=java.exe_minecraft.exe.heapdump");
+					}
 				}
 
 				// Additional parameters:

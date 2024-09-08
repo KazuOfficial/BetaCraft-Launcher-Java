@@ -33,6 +33,7 @@ public class InstanceSettings extends JFrame implements LanguageElement {
 	public JCheckBox proxyCheck;
 	public JCheckBox keepOpenCheck;
 	public JCheckBox RPCCheck;
+	public JCheckBox intelFix;
 	public JCheckBox showConsole;
 	public JCheckBox forceUpdate = null;
 
@@ -126,6 +127,15 @@ public class InstanceSettings extends JFrame implements LanguageElement {
 		RPCCheck.setOpaque(false);
 		RPCCheck.setSelected(Launcher.currentInstance.RPC);
 		panel.add(RPCCheck, constr);
+		
+		constr.gridy++;
+		intelFix = new JCheckBox(Lang.OPTIONS_INTEL_TRICK);
+		intelFix.setForeground(Color.LIGHT_GRAY);
+		intelFix.setOpaque(false);
+		intelFix.setSelected(Launcher.currentInstance.intelFix);
+		if (OS.isWindows()) {
+			panel.add(intelFix, constr);
+		}
 
 		constr.gridy++;
 		parametersText = new JLabel(Lang.OPTIONS_LAUNCH_ARGS);
@@ -447,6 +457,7 @@ public class InstanceSettings extends JFrame implements LanguageElement {
 		proxyCheck.setText(Lang.OPTIONS_PROXY);
 		keepOpenCheck.setText(Lang.OPTIONS_KEEP_OPEN);
 		RPCCheck.setText(Lang.OPTIONS_RPC);
+		intelFix.setText(Lang.OPTIONS_INTEL_TRICK);
 		parametersText.setText(Lang.OPTIONS_LAUNCH_ARGS);
 		dirChooser.setText(Lang.BROWSE);
 		dimensions1Text.setText(Lang.OPTIONS_WIDTH);
@@ -514,7 +525,7 @@ public class InstanceSettings extends JFrame implements LanguageElement {
 			
 			javaPath.setText(jpath);
 		}
-		
+
 		Launcher.forceUpdate = forceUpdate.isSelected();
 		if (!jpath.equals(Launcher.currentInstance.javaPath)) {
 			Launcher.currentInstance.isJavaPathNew = true;
@@ -535,6 +546,7 @@ public class InstanceSettings extends JFrame implements LanguageElement {
 		Launcher.currentInstance.keepopen = keepOpenCheck.isSelected();
 		Launcher.currentInstance.proxy = proxyCheck.isSelected();
 		Launcher.currentInstance.RPC = RPCCheck.isSelected();
+		Launcher.currentInstance.intelFix = intelFix.isSelected();
 		Launcher.currentInstance.console = showConsole.isSelected();
 		Launcher.currentInstance.launchArgs = parameters.getText();
 
