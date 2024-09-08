@@ -102,10 +102,11 @@ public class Instance {
 					instance.javaPath = jpath;
 				}
 
-				try {
-					instance.isJavaPathNew = Boolean.parseBoolean(instancesettings.getProperty("isJavaPathNew"));
-				} catch (Throwable t) {
-					instance.isJavaPathNew = true;
+				String isJavaPathNew = instancesettings.getProperty("isJavaPathNew");
+				if (isJavaPathNew != null) {
+					instance.isJavaPathNew = Boolean.parseBoolean(isJavaPathNew);
+				} else {
+					instance.isJavaPathNew = true; // assume true by default
 				}
 			} catch (Throwable t) {
 				System.err.println("Instance '" + name + "' is corrupted!");
