@@ -488,8 +488,11 @@ public class Launcher {
 				report = report.substring(report.indexOf("card name:") + "card name:".length());
 				report = report.substring(0, report.indexOf("\n"));
 
-				if (!report.contains("intel(r) hd graphics"))
+				if (!report.contains("intel(r) hd graphics")) {
+					Launcher.currentInstance.isJavaPathNew = false;
+					Launcher.currentInstance.saveInstance();
 					return true; // can return true here as it's the last check
+				}
 
 				String javaver = Util.getFullJavaVersion(Launcher.currentInstance.javaPath);
 				if (javaver == null || !javaver.equals("1.8.0_51")) {
