@@ -9,14 +9,14 @@ sourceCompatibility = 7;
 
 repositories {
 	mavenCentral()
-	flatDir {
-		dirs 'lib'
+	maven {
+		url = uri("https://repo.blueberrymc.net/repository/maven-releases/")
 	}
 }
 
 jar {
 	from {
-		configurations.extraLibs.collect {
+		configurations.runtime.collect {
 			it.isDirectory() ? it : zipTree(it)
 		}
 	}
@@ -61,17 +61,9 @@ task osxBuildApp {
 	}
 }
 
-configurations {
-	extraLibs
-}
-
 dependencies {
-	extraLibs 'com.google.code.gson:gson:2.10.1'
-	compile fileTree(dir: 'lib', include: ['*.jar'])
-}
+	runtime 'com.google.code.gson:gson:2.10.1'
 
-task copyGson(type: Copy) {
-	into "lib/" from configurations.extraLibs
+	compileOnly 'com.google.code.gson:gson:2.10.1'
+	compileOnly 'net.arikia.dev:discord-rpc-without-jna:1.7.0'
 }
-
-compileJava.dependsOn copyGson
