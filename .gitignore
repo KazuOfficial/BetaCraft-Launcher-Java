@@ -9,6 +9,9 @@ build
 .project
 .settings
 
+# IntelliJ project files
+.idea
+
 # VS Code project files
 .vscode
 
