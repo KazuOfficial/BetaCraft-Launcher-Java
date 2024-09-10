@@ -160,11 +160,15 @@ public class Classic12aWrapper extends Wrapper {
 							runningField.set(run, false);
 						}
 					}
-					Method real12a = clazz.getDeclaredMethod("a", null);
-					if (real12a == null) {
+
+					Method real12a;
+					try {
+						real12a = clazz.getDeclaredMethod("a");
+					} catch (NoSuchMethodException noSuchMethodException) {
 						// 12a-dev
-						real12a = clazz.getDeclaredMethod("stop", null);
+						real12a = clazz.getDeclaredMethod("stop");
 					}
+
 					real12a.invoke(run);
 				}
 			}
@@ -188,11 +192,15 @@ public class Classic12aWrapper extends Wrapper {
 					if (name.contains("mojang")) {
 						final Class<?> clazz = classLoader.loadClass(name);
 						mcField.setAccessible(true);
-						Method real12a = clazz.getDeclaredMethod("a", null);
-						if (real12a == null) {
+
+						Method real12a;
+						try {
+							real12a = clazz.getDeclaredMethod("a");
+						} catch (NoSuchMethodException noSuchMethodException) {
 							// 12a-dev
-							real12a = clazz.getDeclaredMethod("destroy", null);
+							real12a = clazz.getDeclaredMethod("destroy");
 						}
+
 						real12a.invoke(run);
 					}
 				}

@@ -12,7 +12,7 @@ public class BC {
 	public static PropertyFile SETTINGS;
 
 	// TODO better check this before release
-	public static boolean prerelease = true;
+	public static boolean prerelease = false;
 	public static boolean nightly = false;
 
 	public static boolean portable = false;

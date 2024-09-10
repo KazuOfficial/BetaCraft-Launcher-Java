@@ -162,7 +162,7 @@ public class Classic15aWrapper extends Wrapper {
 							runningField.set(run, false);
 						}
 					}
-					clazz.getDeclaredMethod("b", null).invoke(run);
+					clazz.getDeclaredMethod("b").invoke(run);
 				}
 			}
 		} catch (Exception ex) {
@@ -185,7 +185,7 @@ public class Classic15aWrapper extends Wrapper {
 					if (name.contains("mojang")) {
 						final Class<?> clazz = classLoader.loadClass(name);
 						mcField.setAccessible(true);
-						clazz.getDeclaredMethod("a", null).invoke(run);
+						clazz.getDeclaredMethod("a").invoke(run);
 					}
 				}
 			}
